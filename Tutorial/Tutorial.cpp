@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -60,6 +61,13 @@ int main(int argc,     // Number of strings in array argv
   ScambiaNumeri(x, y);
   cout << "X: " << x << endl;
   cout << "Y: " << y << endl;
+
+  // VETTORI
+  int size = 5;                  // declare the size of the vector
+  vector<int> myvector(size, 0); // create a vector to hold "size" int's
+                                 // all initialized to zero
+  myvector[0] = 1234;            // assign values like a c++ array
+  cout << "Primo elemento del vettore: " << myvector[0] << endl;
 
   return 0;
 }
