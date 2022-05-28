@@ -14,8 +14,9 @@ public:
     this->out = Main();
   }
   int Main() {
-    cout << "Startup..." << endl;
+    cout << "Starting..." << endl;
     this->code = ReadFile(filename);
+    cout << "End" << endl;
     return 0;
   }
 
