@@ -17,5 +17,6 @@ int main() {
   while (getline(file, riga)) {
     cout << riga << endl;
   }
+  file.close();
   return 0;
 }
