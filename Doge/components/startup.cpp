@@ -7,17 +7,31 @@ using namespace std;
 class Startup {
 public:
   string filename;
-  ifstream *file;
+  string code;
+  int out;
   Startup(string filename) {
     this->filename = filename;
-    ifstream filestream(filename);
-    this->file = &filestream;
+    this->out = Main();
   }
-  string ReadFileLine() {
-    string riga;
-    // legge riga per riga il file
-    getline(this->file, riga);
-    cout << riga << endl;
-    return "";
+  int Main() {
+    cout << "Startup..." << endl;
+    this->code = ReadFile(filename);
+    return 0;
   }
+
+private:
+  string ReadFile(string filename) {
+    string code;
+    string row;
+    ifstream file(filename);
+    while (getline(file, row)) {
+      code += row;
+      code.push_back('\n');
+    }
+    code.pop_back(); // for remove the last uneccessary '\n'
+    cout << code << endl;
+    file.close();
+    return code;
+  }
+  string LibrarysSearch() { return ""; }
 };
