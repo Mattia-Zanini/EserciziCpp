@@ -1,13 +1,14 @@
 #include "out/output.cpp"
+#include "trlibr.cpp"
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 class Startup {
 public:
   string filename;
-  string code;
   int out;
   Startup(string filename) {
     this->filename = filename;
@@ -15,24 +16,43 @@ public:
   }
   int Main() {
     cout << "Starting..." << endl;
-    this->code = ReadFile(filename);
+    // count the number of rows the file contains
+    int rows = CountRows();
+    string code[rows];
+    // read every row from the file and write it in the array
+    ReadFile(code);
+    vector<string> tCode;
+    LibrariesTr lt;
     cout << "End" << endl;
     return 0;
   }
 
 private:
-  string ReadFile(string filename) {
-    string code;
+  int CountRows() {
+    int nRows = 0;
+    ifstream inputFile(filename);
+    string row;
+    while (getline(inputFile, row)) {
+      if (!row.empty())
+        nRows++;
+    }
+    cout << "The file have: " << nRows << " rows" << endl;
+    inputFile.close();
+    return nRows;
+  }
+  int ReadFile(string arr[]) {
     string row;
     ifstream file(filename);
-    while (getline(file, row)) {
-      code += row;
-      code.push_back('\n');
+    for (int i = 0; getline(file, row); i++) {
+      arr[i] = row;
+      // cout << arr[i] << endl;
     }
-    code.pop_back(); // for remove the last uneccessary '\n'
-    cout << code << endl;
     file.close();
-    return code;
+    return 0;
   }
-  string LibrarysSearch() { return ""; }
+  string LibrarysSearch(vector<string> vet, string code[], int rows) {
+    for (int i = 0; i < rows; i++) {
+    }
+    return "";
+  }
 };
