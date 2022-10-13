@@ -453,3 +453,6 @@ Module.symvers
 Mkfile.old
 dkms.conf
 Doge/main
+
+# Mac stupid file
+.DS_Store
