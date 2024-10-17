@@ -1,2 +1,0 @@
-Questa riga verrà scritta sul file
-questa è la seconda riga del file
