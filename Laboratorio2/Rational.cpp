@@ -6,11 +6,11 @@ Rational::Rational() {
   num = 0;
   den = 1;
 }
-Rational::Rational(int n) {
+Rational::Rational(int n) : num{n} {
   num = n;
   den = 1;
 }
-Rational::Rational(int n, int d) {
+Rational::Rational(int n, int d) : num{n}, den{d} {
   // Controllo che il denominatore non sia uguale a zero, in caso lancio
   // un'eccezzione
   if (d == 0)
