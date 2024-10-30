@@ -1,3 +1,5 @@
+#include <iostream>
+
 #ifndef RATIONAL_H
 #define RATIONAL_H
 
@@ -34,6 +36,7 @@ public:
   bool operator==(const Rational &other);
   bool operator>(const Rational &other);
   bool operator<(const Rational &other);
+  std::ostream& operator<<(std::ostream& os);
 
 private:
 };

@@ -3,7 +3,7 @@
 
 int main() {
   Rational r1 = Rational(1, 3);
-  Rational r2 = Rational {3, 6};
+  Rational r2 = Rational{3, 6};
 
   std::cout << "R1: " << r1.to_double() << "\n";
   std::cout << "R2: " << r2.to_double() << "\n";
@@ -35,11 +35,12 @@ int main() {
   std::cout << "R5 > R4: " << (r5 > r4) << "\n";
   std::cout << "R5 < R4: " << (r5 < r4) << "\n";
 
-  Rational r7 = Rational();
+  Rational r7 = Rational(3, 8);
   r7 = r7 + 8;
   std::cout << "R7: " << r7 << '\n';
 
-  // Da ovviamente errore perchè non esiste l'overloading degli interi per un ogetto Rational
+  // Da ovviamente errore perchè non esiste l'overloading della somma degli
+  // interi per un ogetto Rational
   // Rational r8 = 5 + r7;
 
   return 0;
