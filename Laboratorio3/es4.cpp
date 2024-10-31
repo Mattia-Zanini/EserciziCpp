@@ -1,10 +1,9 @@
-class MyVector{
-int size;
-double *array = nullptr;
+class MyVector {
+  int size;
+  double *array = nullptr;
+
 public:
-	MyVector(){ array = *(double)malloc(*(double), 1) }
+  MyVector() { array = new double[1]; }
 };
 
-int main(){
-	return 0;
-}
+int main() { return 0; }
