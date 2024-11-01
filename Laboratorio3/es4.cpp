@@ -5,7 +5,7 @@ class MyVector {
   double *array;
 
 public:
-  class Invalid {};
+  class OutOfBounds {};
 
   MyVector();
   MyVector(int n);
@@ -22,27 +22,27 @@ MyVector::MyVector() {
   size = 1;
   array = new double[size];
 }
-MyVector::MyVector(int n) {
+MyVector::MyVector(int n) : size{n} {
   size = n;
   array = new double[n];
 }
 
 void MyVector::safe_set(int pos, double value) {
   if (!isInBound(pos))
-    throw Invalid();
+    throw OutOfBounds();
 
   array[pos] = value;
 }
 double MyVector::safe_get(int pos) {
   if (!isInBound(pos))
-    throw Invalid();
+    throw OutOfBounds();
 
   return array[pos];
 }
 
 double &MyVector::operator[](const int pos) {
   if (!isInBound(pos)) {
-    throw Invalid();
+    throw OutOfBounds();
   }
   return array[pos];
 }
