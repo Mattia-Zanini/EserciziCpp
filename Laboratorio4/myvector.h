@@ -13,6 +13,7 @@ public:
   double* pop_back(void);
   double& at(const int pos) const;
   double& operator[](const int pos);
+  double& operator[](const int pos) const;
   ~MyVector();
 
 private:

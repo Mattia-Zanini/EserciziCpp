@@ -34,6 +34,9 @@ double& MyVector::at(int pos) const {
 double& MyVector::operator[](const int pos){
   return array[pos];
 }
+double& MyVector::operator[](const int pos) const{
+  return array[pos];
+}
 
 // Distruttore
 MyVector::~MyVector() {
