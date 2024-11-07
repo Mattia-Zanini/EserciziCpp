@@ -3,16 +3,12 @@
 MyVector::MyVector() {
   size = 0;
   last_element_position = 0;
-  array = new double[size];
+  array = new double(size);
 }
 MyVector::MyVector(int n) : size{n} {
   size = n;
   last_element_position = 0;
-  array = new double[n];
-
-  // inizializzo l'array
-  for (int i = 0; i < size; i++)
-    array[i] = 0.0;
+  array = new double(n);
 }
 
 int MyVector::get_size() const { return size; }
@@ -24,19 +20,31 @@ void MyVector::push_back(double value) {
   array[last_element_position] = value;
   last_element_position++;
 }
-double& MyVector::at(int pos) const {
+
+double MyVector::pop_back() {
+  if(last_element_position != 0)
+    last_element_position--;
+
+  array[last_element_position + 1] = 0.0;
+  return array[last_element_position];
+}
+
+double &MyVector::at(int pos) const {
   if (!is_in_bound(pos))
     throw OutOfBounds();
 
   return array[pos];
 }
 
-double& MyVector::operator[](const int pos){
-  return array[pos];
+void MyVector::reserve(int n){
+  if(size >= n)
+    return;
+
+  resize(n);
 }
-double& MyVector::operator[](const int pos) const{
-  return array[pos];
-}
+
+double &MyVector::operator[](const int pos) { return array[pos]; }
+double &MyVector::operator[](const int pos) const { return array[pos]; }
 
 // Distruttore
 MyVector::~MyVector() {
@@ -50,6 +58,19 @@ void MyVector::resize() {
     newSize = size = 1;
   else
     newSize = 2 * size;
+
+  double *arr = new double[newSize];
+  for (int i = 0; i < size; i++)
+    arr[i] = array[i];
+
+  size = newSize;
+  delete[] array;
+  array = arr;
+  arr = nullptr;
+}
+
+void MyVector::resize(int n) {
+  int newSize = n;
 
   double *arr = new double[newSize];
   for (int i = 0; i < size; i++)

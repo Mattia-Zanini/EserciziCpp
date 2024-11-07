@@ -21,6 +21,10 @@ int main() {
               << "\n";
   }
 
+  std::cout << "Riservo 13 elementi\n";
+  v.reserve(10);
+  printArray(&v, v.get_size());
+
   return 0;
 }
 
