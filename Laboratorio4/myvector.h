@@ -1,3 +1,6 @@
+#ifndef MYVECTOR_H
+#define MYVECTOR_H
+
 class MyVector {
   int size;
   int last_element_position;
@@ -22,3 +25,5 @@ private:
   void resize();
   void resize(int n);
 };
+
+#endif
