@@ -1,4 +1,4 @@
-#include "myvector.hpp"
+#include "myvector.h"
 #include <iostream>
 
 void printArray(const MyVector *mv, int size);

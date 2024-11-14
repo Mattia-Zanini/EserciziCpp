@@ -1,7 +1,7 @@
 #ifndef MYVECTOR_HPP
 #define MYVECTOR_HPP
 
-#include "myvector.h"
+#include <algorithm>
 
 MyVector::MyVector() {
   size = 0;
@@ -12,6 +12,18 @@ MyVector::MyVector(int n) : size{n} {
   size = n;
   last_element_position = 0;
   array = new double(n);
+}
+MyVector::MyVector(const MyVector& v2){
+	double *tmp = new double[v2.size];
+	std::copy(v2.array, v2.array + size, tmp);
+	delete[] array;
+	array = tmp;
+	size = v2.size;
+	last_element_position = v2.last_element_position;
+}
+MyVector::MyVector(std::initializer_list<double> list): size{static_cast<int>(list.size())}, array{new double[size]} {
+	std::copy(list.begin(), list.end(), array);
+	last_element_position = size;
 }
 
 int MyVector::get_size() const { return size; }
@@ -72,6 +84,16 @@ Ad esempio, se hai const MyVector v;, puoi usare v[0] per leggere un elemento, m
 modificare il valore (v[0] = 10.5; darebbe errore).
 */
 
+MyVector& MyVector::operator=(const MyVector& v2) {
+	double *tmp = new double[v2.size];
+	std::copy(v2.array, v2.array + size, tmp);
+	delete[] array;
+	array = tmp;
+	size = v2.size;
+	last_element_position = v2.last_element_position;
+	return *this;
+}
+
 // Distruttore
 MyVector::~MyVector() {
   delete[] array;
@@ -107,6 +129,19 @@ void MyVector::resize(int n) {
   delete[] array;
   array = arr;
   arr = nullptr;
+}
+
+MyVector::MyVector(MyVector&& mv): size{mv.size}, array{mv.array} {
+	mv.size = 0;
+	mv.array = nullptr;
+}
+MyVector& MyVector::operator=(MyVector&& mv) {
+	delete[] array;
+	array = mv.array;
+	size = mv.size;
+	mv.array = nullptr;
+	mv.size = 0;
+	return *this;
 }
 
 #endif
