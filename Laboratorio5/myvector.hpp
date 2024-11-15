@@ -3,31 +3,36 @@
 
 #include <algorithm>
 
-template<typename T> MyVector<T>::MyVector() {
+template <typename T> MyVector<T>::MyVector() {
   size = 0;
   last_element_position = 0;
   array = new T(size);
 }
-template<typename T> MyVector<T>::MyVector(int n) : size{n}, array{ new T[n] } {
-  for (int i = 0; i < size; ++i) array[i] = 0;
+template <typename T> MyVector<T>::MyVector(int n) : size{n}, array{new T[n]} {
+  for (int i = 0; i < size; ++i)
+    array[i] = 0;
   last_element_position = 0;
 }
-template<typename T> MyVector<T>::MyVector(const MyVector<T>& v2){
-	T *tmp = new T[v2.size];
-	std::copy(v2.array, v2.array + size, tmp);
-	delete[] array;
-	array = tmp;
-	size = v2.size;
-	last_element_position = v2.last_element_position;
+template <typename T> MyVector<T>::MyVector(const MyVector<T> &v2) {
+  T *tmp = new T[v2.size];
+  std::copy(v2.array, v2.array + size, tmp);
+  delete[] array;
+  array = tmp;
+  size = v2.size;
+  last_element_position = v2.last_element_position;
 }
-template<typename T> MyVector<T>::MyVector(std::initializer_list<T> list): size{static_cast<int>(list.size())}, array{new T[size]} {
-	std::copy(list.begin(), list.end(), array);
-	last_element_position = size;
+template <typename T>
+MyVector<T>::MyVector(std::initializer_list<T> list)
+    : size{static_cast<int>(list.size())}, array{new T[size]} {
+  std::copy(list.begin(), list.end(), array);
+  last_element_position = size;
 }
 
-template<typename T> int MyVector<T>::get_size() const { return last_element_position; }
+template <typename T> int MyVector<T>::get_size() const {
+  return last_element_position;
+}
 
-template<typename T> void MyVector<T>::push_back(T value) {
+template <typename T> void MyVector<T>::push_back(T value) {
   if (last_element_position == size)
     resize();
 
@@ -35,50 +40,57 @@ template<typename T> void MyVector<T>::push_back(T value) {
   last_element_position++;
 }
 
-template<typename T> T MyVector<T>::pop_back() {
-  if(last_element_position != 0)
+template <typename T> T MyVector<T>::pop_back() {
+  if (last_element_position != 0)
     last_element_position--;
 
   array[last_element_position + 1] = 0.0;
   return array[last_element_position];
 }
 
-template<typename T> T &MyVector<T>::at(int pos) const {
+template <typename T> T &MyVector<T>::at(int pos) const {
   if (!is_in_bound(pos))
     throw OutOfBounds();
 
   return array[pos];
 }
 
-template<typename T> void MyVector<T>::reserve(int n){
-  if(size >= n)
+template <typename T> void MyVector<T>::reserve(int n) {
+  if (size >= n)
     return;
 
   resize(n);
 }
 
-template<typename T> T &MyVector<T>::operator[](const int pos) { return array[pos]; }
-template<typename T> T &MyVector<T>::operator[](const int pos) const { return array[pos]; }
+template <typename T> T &MyVector<T>::operator[](const int pos) {
+  return array[pos];
+}
+template <typename T> T &MyVector<T>::operator[](const int pos) const {
+  return array[pos];
+}
 
-/*MyVector& MyVector<T>::operator=(const MyVector& v2) {
-	double *tmp = new double[v2.size];
-	std::copy(v2.array, v2.array + size, tmp);
-	delete[] array;
-	array = tmp;
-	size = v2.size;
-	last_element_position = v2.last_element_position;
-	return *this;
+template <typename T>
+MyVector<T> &MyVector<T>::operator=(const MyVector<T> &v2) {
+  double *tmp = new double[v2.size];
+  std::copy(v2.array, v2.array + size, tmp);
+  delete[] array;
+  array = tmp;
+  size = v2.size;
+  last_element_position = v2.last_element_position;
+  return *this;
 }
 
 // Distruttore
-MyVector<T>::~MyVector() {
+template <typename T> MyVector<T>::~MyVector() {
   delete[] array;
   array = nullptr;
 }
 
-bool MyVector<T>::is_in_bound(int pos) const { return (pos >= 0 && pos < size); }
-*/
-template<typename T> void MyVector<T>::resize() {
+template <typename T> bool MyVector<T>::is_in_bound(int pos) const {
+  return (pos >= 0 && pos < size);
+}
+
+template <typename T> void MyVector<T>::resize() {
   int newSize = 0;
   if (size == 0)
     newSize = size = 1;
@@ -95,7 +107,7 @@ template<typename T> void MyVector<T>::resize() {
   arr = nullptr;
 }
 
-template<typename T> void MyVector<T>::resize(int n) {
+template <typename T> void MyVector<T>::resize(int n) {
   int newSize = n;
 
   T *arr = new T[newSize];
@@ -108,17 +120,18 @@ template<typename T> void MyVector<T>::resize(int n) {
   arr = nullptr;
 }
 
-/*MyVector<T>::MyVector(MyVector&& mv): size{mv.size}, array{mv.array} {
-	mv.size = 0;
-	mv.array = nullptr;
+template <typename T>
+MyVector<T>::MyVector(MyVector<T> &&mv) : size{mv.size}, array{mv.array} {
+  mv.size = 0;
+  mv.array = nullptr;
 }
-MyVector& MyVector<T>::operator=(MyVector&& mv) {
-	delete[] array;
-	array = mv.array;
-	size = mv.size;
-	mv.array = nullptr;
-	mv.size = 0;
-	return *this;
-}*/
+template <typename T> MyVector<T> &MyVector<T>::operator=(MyVector<T> &&mv) {
+  delete[] array;
+  array = mv.array;
+  size = mv.size;
+  mv.array = nullptr;
+  mv.size = 0;
+  return *this;
+}
 
 #endif
