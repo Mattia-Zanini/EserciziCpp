@@ -9,24 +9,29 @@ MyVector::MyVector() {
   array = new double(size);
 }
 MyVector::MyVector(int n) : size{n} {
-  size = n;
   last_element_position = 0;
   array = new double(n);
 }
-MyVector::MyVector(const MyVector& v2){
-	double *tmp = new double[v2.size];
-	std::copy(v2.array, v2.array + size, tmp);
-	delete[] array;
-	array = tmp;
-	size = v2.size;
-	last_element_position = v2.last_element_position;
+MyVector::MyVector(const MyVector &v2) {
+  array = new double[v2.size];
+  // std::copy(v2.array, v2.array + v2.size, array);
+  for (int i = 0; i < v2.size; i++)
+    array[i] = v2.array[i];
+
+  size = v2.size;
+  last_element_position = v2.last_element_position;
 }
-MyVector::MyVector(std::initializer_list<double> list): size{static_cast<int>(list.size())}, array{new double[size]} {
-	std::copy(list.begin(), list.end(), array);
-	last_element_position = size;
+MyVector::MyVector(std::initializer_list<double> list)
+    : size{static_cast<int>(list.size())}, array{new double[size]} {
+  std::copy(list.begin(), list.end(), array);
+  last_element_position = size;
 }
 
 int MyVector::get_size() const { return last_element_position; }
+
+// funzione membro implementata unicamente con lo scopo di
+// verificare il corretto funzionamento di 'reserve()'
+int MyVector::get_full_size() const { return size; }
 
 void MyVector::push_back(double value) {
   if (last_element_position == size)
@@ -37,7 +42,7 @@ void MyVector::push_back(double value) {
 }
 
 double MyVector::pop_back() {
-  if(last_element_position != 0)
+  if (last_element_position != 0)
     last_element_position--;
 
   array[last_element_position + 1] = 0.0;
@@ -51,8 +56,8 @@ double &MyVector::at(int pos) const {
   return array[pos];
 }
 
-void MyVector::reserve(int n){
-  if(size >= n)
+void MyVector::reserve(int n) {
+  if (size >= n)
     return;
 
   resize(n);
@@ -65,33 +70,37 @@ double &MyVector::operator[](const int pos) const { return array[pos]; }
 double& operator[](const int pos);
 
 - Questa è la versione non-const dell'operatore operator[].
-- Restituisce un riferimento modificabile a double, quindi permette di modificare
-  l'elemento nel vettore.
+- Restituisce un riferimento modificabile a double, quindi permette di
+modificare l'elemento nel vettore.
 - Può essere chiamata solo su oggetti non const di MyVector.
 
-Ad esempio, con un oggetto MyVector v;, puoi scrivere v[0] = 10.5; e modificare l'elemento.
+Ad esempio, con un oggetto MyVector v;, puoi scrivere v[0] = 10.5; e modificare
+l'elemento.
 
 
 double& operator[](const int pos) const;
 
 - Questa è la versione const dell'operatore operator[].
-- L'aggiunta della keyword const alla fine della dichiarazione indica che l'operatore non
-  modificherà l'oggetto.
-- Viene utilizzata per accedere agli elementi di un oggetto const MyVector, senza permettere
-  modifiche.
+- L'aggiunta della keyword const alla fine della dichiarazione indica che
+l'operatore non modificherà l'oggetto.
+- Viene utilizzata per accedere agli elementi di un oggetto const MyVector,
+senza permettere modifiche.
 
-Ad esempio, se hai const MyVector v;, puoi usare v[0] per leggere un elemento, ma non puoi
-modificare il valore (v[0] = 10.5; darebbe errore).
+Ad esempio, se hai const MyVector v;, puoi usare v[0] per leggere un elemento,
+ma non puoi modificare il valore (v[0] = 10.5; darebbe errore).
 */
 
-MyVector& MyVector::operator=(const MyVector& v2) {
-	double *tmp = new double[v2.size];
-	std::copy(v2.array, v2.array + size, tmp);
-	delete[] array;
-	array = tmp;
-	size = v2.size;
-	last_element_position = v2.last_element_position;
-	return *this;
+MyVector &MyVector::operator=(const MyVector &v2) {
+  if (this == &v2) // Verifica self-assignment
+    return *this;
+
+  double *tmp = new double[v2.size];
+  std::copy(v2.array, v2.array + v2.size, tmp);
+  delete[] array;
+  array = tmp;
+  size = v2.size;
+  last_element_position = v2.last_element_position;
+  return *this;
 }
 
 // Distruttore
@@ -131,17 +140,20 @@ void MyVector::resize(int n) {
   arr = nullptr;
 }
 
-MyVector::MyVector(MyVector&& mv): size{mv.size}, array{mv.array} {
-	mv.size = 0;
-	mv.array = nullptr;
+MyVector::MyVector(MyVector &&mv) : size{mv.size}, array{mv.array} {
+  // annullo il vecchio oggetto
+  mv.size = 0;
+  mv.array = nullptr;
 }
-MyVector& MyVector::operator=(MyVector&& mv) {
-	delete[] array;
-	array = mv.array;
-	size = mv.size;
-	mv.array = nullptr;
-	mv.size = 0;
-	return *this;
+MyVector &MyVector::operator=(MyVector &&mv) {
+  delete[] array;
+  array = mv.array;
+  size = mv.size;
+  last_element_position = mv.last_element_position;
+
+  mv.array = nullptr;
+  mv.size = 0;
+  return *this;
 }
 
 #endif

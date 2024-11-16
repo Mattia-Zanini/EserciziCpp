@@ -13,18 +13,23 @@ public:
 
   MyVector();
   MyVector(int n);
-  MyVector(const MyVector& v2);
+  MyVector(const MyVector &v2);
   MyVector(std::initializer_list<double> lst);
   int get_size() const;
+
+  // funzione membro implementata unicamente con lo scopo di
+  // verificare il corretto funzionamento di 'reserve()'
+  int get_full_size() const;
+
   void reserve(int n);
   void push_back(double value);
   double pop_back(void);
-  double& at(const int pos) const;
-  double& operator[](const int pos);
-  double& operator[](const int pos) const;
-  MyVector& operator=(const MyVector& v2);
-  MyVector(MyVector&& a);
-  MyVector&operator=(MyVector&& a);
+  double &at(const int pos) const;
+  double &operator[](const int pos);
+  double &operator[](const int pos) const;
+  MyVector &operator=(const MyVector &v2);
+  MyVector(MyVector &&a);
+  MyVector &operator=(MyVector &&a);
   ~MyVector();
 
 private:

@@ -9,13 +9,13 @@ template <typename T> MyVector<T>::MyVector() {
   array = new T(size);
 }
 template <typename T> MyVector<T>::MyVector(int n) : size{n}, array{new T[n]} {
-  for (int i = 0; i < size; ++i)
-    array[i] = 0;
   last_element_position = 0;
+  for (int i = 0; i < size; i++)
+    array[i] = '\0';
 }
 template <typename T> MyVector<T>::MyVector(const MyVector<T> &v2) {
   array = new T[v2.size];
-  // std::copy(v2.array, v2.array + size, array);
+  // std::copy(v2.array, v2.array + v2.size, array);
   for (int i = 0; i < v2.size; i++)
     array[i] = v2.array[i];
 
@@ -76,8 +76,11 @@ template <typename T> T &MyVector<T>::operator[](const int pos) const {
 
 template <typename T>
 MyVector<T> &MyVector<T>::operator=(const MyVector<T> &v2) {
+  if (this == &v2) // Verifica self-assignment
+    return *this;
+
   T *tmp = new T[v2.size];
-  std::copy(v2.array, v2.array + size, tmp);
+  std::copy(v2.array, v2.array + v2.size, tmp);
   delete[] array;
   array = tmp;
   size = v2.size;
