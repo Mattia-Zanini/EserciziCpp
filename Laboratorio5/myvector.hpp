@@ -14,10 +14,11 @@ template <typename T> MyVector<T>::MyVector(int n) : size{n}, array{new T[n]} {
   last_element_position = 0;
 }
 template <typename T> MyVector<T>::MyVector(const MyVector<T> &v2) {
-  T *tmp = new T[v2.size];
-  std::copy(v2.array, v2.array + size, tmp);
-  delete[] array;
-  array = tmp;
+  array = new T[v2.size];
+  // std::copy(v2.array, v2.array + size, array);
+  for (int i = 0; i < v2.size; i++)
+    array[i] = v2.array[i];
+
   size = v2.size;
   last_element_position = v2.last_element_position;
 }
@@ -31,6 +32,10 @@ MyVector<T>::MyVector(std::initializer_list<T> list)
 template <typename T> int MyVector<T>::get_size() const {
   return last_element_position;
 }
+
+// funzione membro implementata unicamente con lo scopo di
+// verificare il corretto funzionamento di 'reserve()'
+template <typename T> int MyVector<T>::get_full_size() const { return size; }
 
 template <typename T> void MyVector<T>::push_back(T value) {
   if (last_element_position == size)
@@ -71,7 +76,7 @@ template <typename T> T &MyVector<T>::operator[](const int pos) const {
 
 template <typename T>
 MyVector<T> &MyVector<T>::operator=(const MyVector<T> &v2) {
-  double *tmp = new double[v2.size];
+  T *tmp = new T[v2.size];
   std::copy(v2.array, v2.array + size, tmp);
   delete[] array;
   array = tmp;
@@ -122,6 +127,7 @@ template <typename T> void MyVector<T>::resize(int n) {
 
 template <typename T>
 MyVector<T>::MyVector(MyVector<T> &&mv) : size{mv.size}, array{mv.array} {
+  // annullo il vecchio oggetto
   mv.size = 0;
   mv.array = nullptr;
 }
@@ -129,6 +135,8 @@ template <typename T> MyVector<T> &MyVector<T>::operator=(MyVector<T> &&mv) {
   delete[] array;
   array = mv.array;
   size = mv.size;
+  last_element_position = mv.last_element_position;
+
   mv.array = nullptr;
   mv.size = 0;
   return *this;

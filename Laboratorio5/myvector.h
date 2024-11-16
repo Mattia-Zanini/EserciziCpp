@@ -16,6 +16,11 @@ public:
   MyVector(const MyVector<T> &v2);
   MyVector(std::initializer_list<T> list);
   int get_size() const;
+
+  // funzione membro implementata unicamente con lo scopo di
+  // verificare il corretto funzionamento di 'reserve()'
+  int get_full_size() const;
+
   void reserve(int n);
   void push_back(T value);
   T pop_back(void);
