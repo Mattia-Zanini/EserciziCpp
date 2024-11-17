@@ -124,7 +124,6 @@ void MyVector::resize() {
   size = newSize;
   delete[] array;
   array = arr;
-  arr = nullptr;
 }
 
 void MyVector::resize(int n) {
@@ -137,7 +136,6 @@ void MyVector::resize(int n) {
   size = newSize;
   delete[] array;
   array = arr;
-  arr = nullptr;
 }
 
 MyVector::MyVector(MyVector &&mv) : size{mv.size}, array{mv.array} {
