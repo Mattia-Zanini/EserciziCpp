@@ -12,14 +12,14 @@ MyVector::MyVector(int n) : size{n} {
   last_element_position = 0;
   array = new double(n);
 }
-MyVector::MyVector(const MyVector &v2) {
-  array = new double[v2.size];
-  // std::copy(v2.array, v2.array + v2.size, array);
-  for (int i = 0; i < v2.size; i++)
-    array[i] = v2.array[i];
+MyVector::MyVector(const MyVector &mv2) {
+  array = new double[mv2.size];
+  // std::copy(mv2.array, mv2.array + mv2.size, array);
+  for (int i = 0; i < mv2.size; i++)
+    array[i] = mv2.array[i];
 
-  size = v2.size;
-  last_element_position = v2.last_element_position;
+  size = mv2.size;
+  last_element_position = mv2.last_element_position;
 }
 MyVector::MyVector(std::initializer_list<double> list)
     : size{static_cast<int>(list.size())}, array{new double[size]} {
@@ -90,16 +90,16 @@ Ad esempio, se hai const MyVector v;, puoi usare v[0] per leggere un elemento,
 ma non puoi modificare il valore (v[0] = 10.5; darebbe errore).
 */
 
-MyVector &MyVector::operator=(const MyVector &v2) {
-  if (this == &v2) // Verifica self-assignment
+MyVector &MyVector::operator=(const MyVector &mv2) {
+  if (this == &mv2) // Verifica self-assignment
     return *this;
 
-  double *tmp = new double[v2.size];
-  std::copy(v2.array, v2.array + v2.size, tmp);
+  double *tmp = new double[mv2.size];
+  std::copy(mv2.array, mv2.array + mv2.size, tmp);
   delete[] array;
   array = tmp;
-  size = v2.size;
-  last_element_position = v2.last_element_position;
+  size = mv2.size;
+  last_element_position = mv2.last_element_position;
   return *this;
 }
 
@@ -138,19 +138,19 @@ void MyVector::resize(int n) {
   array = arr;
 }
 
-MyVector::MyVector(MyVector &&mv) : size{mv.size}, array{mv.array} {
+MyVector::MyVector(MyVector &&mv2) : size{mv2.size}, array{mv2.array} {
   // annullo il vecchio oggetto
-  mv.size = 0;
-  mv.array = nullptr;
+  mv2.size = 0;
+  mv2.array = nullptr;
 }
-MyVector &MyVector::operator=(MyVector &&mv) {
+MyVector &MyVector::operator=(MyVector &&mv2) {
   delete[] array;
-  array = mv.array;
-  size = mv.size;
-  last_element_position = mv.last_element_position;
+  array = mv2.array;
+  size = mv2.size;
+  last_element_position = mv2.last_element_position;
 
-  mv.array = nullptr;
-  mv.size = 0;
+  mv2.array = nullptr;
+  mv2.size = 0;
   return *this;
 }
 

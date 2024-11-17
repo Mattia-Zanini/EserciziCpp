@@ -20,14 +20,14 @@ template <typename T> MyVector<T>::MyVector(int n) : size{n}, array{new T[n]} {
 }
 
 // Costruttore di copia: crea una copia profonda di un altro vettore
-template <typename T> MyVector<T>::MyVector(const MyVector<T> &v2) {
-  array = new T[v2.size];
+template <typename T> MyVector<T>::MyVector(const MyVector<T> &mv2) {
+  array = new T[mv2.size];
   // Copia manualmente gli elementi dell'array
-  for (int i = 0; i < v2.size; i++)
-    array[i] = v2.array[i];
+  for (int i = 0; i < mv2.size; i++)
+    array[i] = mv2.array[i];
 
-  size = v2.size;
-  last_element_position = v2.last_element_position;
+  size = mv2.size;
+  last_element_position = mv2.last_element_position;
 }
 
 // Costruttore con lista di inizializzazione: consente di creare il vettore
@@ -98,16 +98,16 @@ template <typename T> T &MyVector<T>::operator[](const int pos) const {
 
 // Operatore di assegnazione: copia profonda da un altro vettore
 template <typename T>
-MyVector<T> &MyVector<T>::operator=(const MyVector<T> &v2) {
-  if (this == &v2) // Gestisce il caso di self-assignment
+MyVector<T> &MyVector<T>::operator=(const MyVector<T> &mv2) {
+  if (this == &mv2) // Gestisce il caso di self-assignment
     return *this;
 
-  T *tmp = new T[v2.size];                      // Alloca nuova memoria
-  std::copy(v2.array, v2.array + v2.size, tmp); // Copia gli elementi
-  delete[] array;                               // Libera la vecchia memoria
+  T *tmp = new T[mv2.size];                        // Alloca nuova memoria
+  std::copy(mv2.array, mv2.array + mv2.size, tmp); // Copia gli elementi
+  delete[] array;                                  // Libera la vecchia memoria
   array = tmp;
-  size = v2.size;
-  last_element_position = v2.last_element_position;
+  size = mv2.size;
+  last_element_position = mv2.last_element_position;
   return *this;
 }
 
@@ -154,20 +154,20 @@ template <typename T> void MyVector<T>::resize(int n) {
 
 // Costruttore di move: trasferisce i dati da un altro vettore
 template <typename T>
-MyVector<T>::MyVector(MyVector<T> &&mv) : size{mv.size}, array{mv.array} {
-  mv.size = 0; // Resetta il vettore spostato
-  mv.array = nullptr;
+MyVector<T>::MyVector(MyVector<T> &&mv2) : size{mv2.size}, array{mv2.array} {
+  mv2.size = 0; // Resetta il vettore spostato
+  mv2.array = nullptr;
 }
 
 // Operatore di assegnazione di move: trasferisce i dati da un altro vettore
-template <typename T> MyVector<T> &MyVector<T>::operator=(MyVector<T> &&mv) {
-  delete[] array;   // Libera la memoria esistente
-  array = mv.array; // Trasferisce il puntatore
-  size = mv.size;
-  last_element_position = mv.last_element_position;
+template <typename T> MyVector<T> &MyVector<T>::operator=(MyVector<T> &&mv2) {
+  delete[] array;    // Libera la memoria esistente
+  array = mv2.array; // Trasferisce il puntatore
+  size = mv2.size;
+  last_element_position = mv2.last_element_position;
 
-  mv.array = nullptr; // Resetta il vettore spostato
-  mv.size = 0;
+  mv2.array = nullptr; // Resetta il vettore spostato
+  mv2.size = 0;
   return *this;
 }
 
