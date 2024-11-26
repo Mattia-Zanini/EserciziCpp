@@ -1,13 +1,19 @@
 #include "LidarDriver.h"
 #include <algorithm>
 #include <iostream>
+#include <math.h>
 #include <vector>
+
+LidarDriver::LidarDriver()
+    : resolution{1.0}, index{0}, scansion_dim{static_cast<int>(1 + view)} {
+  buffer.resize(buffer_dim, std::vector<double>(scansion_dim));
+}
 
 // costruttore: inizializza le variabili e crea una matrice che ha un numero di
 // colonne pari a buffer_dim e ciascuna di esse è di tipo double ed è lunga view
 LidarDriver::LidarDriver(double r)
     : resolution{r}, index{0}, scansion_dim{static_cast<int>(1 + view / r)} {
-  buffer.resize(buffer_dim, std::vector<double>(view)); //<--MODIFICARE
+  buffer.resize(buffer_dim, std::vector<double>(scansion_dim));
 }
 
 void LidarDriver::new_scan(const std::vector<double> &values) {
@@ -32,18 +38,18 @@ void LidarDriver::new_scan(const std::vector<double> &values) {
   }
 }
 
-std::vector<double> &LidarDriver::get_scan() {
-
+std::vector<double> LidarDriver::get_scan() {
   // caso 1: Lidar non pieno (-> gli x<buffer_dim elementi del Lidar si trovano
   // nelle prime x posizioni)
   if (!is_full) {
     if (index == 0) {
       throw LidarDriver::EmptyLidar(); // non c'è alcuna scansione presente
     }
-    std::vector oldest =
-        buffer[0]; // la scansione più vecchia si trova nella prima cella
+    std::vector<double> oldest = buffer[0];
+    // la scansione più vecchia si trova nella prima cella
     // rimozione della scansione più vecchia spostando le altre scansioni
     // all'inizio del buffer mantenendo l'ordine di inserimento
+
     --index;
     for (int i = 0; i < index; i++) {
       buffer[i] = buffer[i + 1];
@@ -54,7 +60,7 @@ std::vector<double> &LidarDriver::get_scan() {
   // Caso 2: Lidar pieno (in questo caso index per come è stato progettato punta
   // già all'elemento più vecchio)
   else {
-    std::vector oldest = buffer[index];
+    std::vector<double> oldest = buffer[index];
     // rimozione della scansione più vecchia spostando le altre scansioni
     // all'inizio del buffer mantenendo l'ordine di inserimento TENERE PRESENTE
     // DELLA CIRCOLARITà DEL BUFFER passo 1: copio in un vettore le scansioni
@@ -75,8 +81,8 @@ std::vector<double> &LidarDriver::get_scan() {
     for (int i = 0; i < index; i++) {
       buffer[buffer_dim - (index + 1) + i] = newest[i];
     }
-    index = buffer_dim -
-            1; // prima il lidar era pieno, ora ho rimosso una scansione
+    // prima il lidar era pieno, ora ho rimosso una scansione
+    index = buffer_dim - 1;
     is_full = false;
     return oldest;
   }
@@ -88,18 +94,39 @@ void LidarDriver::clear_buffer() {
 }
 
 double LidarDriver::get_distance(double alfa) {
+  if (alfa < 0 || alfa > 180)
+    throw LidarDriver::AngleOutOfBound(); // l'angolo inserito non è valido
+
   if (index == 0) {
     if (!is_full) {
       throw LidarDriver::EmptyLidar(); // non c'è alcuna scansione presente
     } else {
-      return buffer[buffer_dim - 1]
-                   [(int)alfa /
-                    resolution]; // la scansione più recente si trova
-                                 // nell'ultima cella del buffer (per via della
-                                 // circolarità)
+      // la scansione più recente si trova nell'ultima cella del buffer (per via
+      // della circolarità)
+      return buffer[buffer_dim - 1][round(alfa / resolution)];
     }
   }
-  return buffer[index - 1][(int)alfa / resolution];
+  return buffer[index - 1][round(alfa / resolution)];
 }
 
-int main() { return 0; }
+double LidarDriver::get_distance_from_specific_scan(double alfa,
+                                                    int scan_index) {
+  if (alfa < 0 || alfa > 180)
+    throw LidarDriver::AngleOutOfBound();
+
+  if (scan_index < 0 || scan_index > buffer_dim)
+    throw LidarDriver::ScanIndexOutOfBound();
+
+  return buffer[scan_index][round(alfa / resolution)];
+}
+
+std::ostream &operator<<(std::ostream &os, LidarDriver &ld) {
+  constexpr static int view = 180; // angolo di vista costante
+  const double resolution = ld.get_resolution();
+
+  os << "Risoluzione: " << resolution << "\n";
+  for (double i = 0; i <= view; i += resolution)
+    os << "[" << i << "°]: " << ld.get_distance(i) << "\n";
+
+  return os;
+}
