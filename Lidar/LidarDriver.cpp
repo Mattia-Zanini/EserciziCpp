@@ -6,12 +6,11 @@
 
 // Costruttori: inizializza le variabili e crea una matrice che ha un numero di
 // colonne pari a buffer_dim e ciascuna di esse è di tipo double ed è lunga view
-LidarDriver::LidarDriver(double r) {
+LidarDriver::LidarDriver(double r) : index{0} {
   if (r < 0.1 || r > 1)
     throw ResolutionValueNotValid();
 
   resolution = r;
-  index = 0;
   scansion_dim = 1 + view / r;
   buffer.resize(buffer_dim, std::vector<double>(scansion_dim));
 }
