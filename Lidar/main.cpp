@@ -1,5 +1,7 @@
 #include "LidarDriver.cpp"
 
+void print_lider_scans(LidarDriver &ld, int count);
+
 int main() {
   // TEST costruttore di default
   std::cout << "TEST costruttore di default" << std::endl;
@@ -70,11 +72,7 @@ int main() {
             << "buffer[9]: {7, 0, ...}\n"
             << std::endl;
 
-  std::cout << "Situazione corrente:" << std::endl;
-  for (int i = 0; i < 10; i++)
-    std::cout << "buffer[" << i
-              << "][0]: " << ld.get_distance_from_specific_scan(0, i)
-              << std::endl;
+  print_lider_scans(ld, 10);
 
   // TEST funzione membro: get_scan
   std::cout << "\nTEST funzione membro: get_scan, la invoco 4 volte"
@@ -84,12 +82,8 @@ int main() {
   ld.get_scan();
   ld.get_scan();
 
-  std::cout << "Situazione corrente (stampo le scansioni non eliminate):"
-            << std::endl;
-  for (int i = 0; i < ld.get_index(); i++)
-    std::cout << "buffer[" << i
-              << "][0]: " << ld.get_distance_from_specific_scan(0, i)
-              << std::endl;
+  // stampo solo quelle che non risultano eliminate
+  print_lider_scans(ld, ld.get_index());
 
   // TEST funzione membro: clear_buffer
   std::cout << "\nTEST funzione membro: clear_buffer" << std::endl;
@@ -97,4 +91,13 @@ int main() {
   std::cout << "index del buffer: " << ld.get_index() << std::endl;
 
   return 0;
+}
+
+void print_lider_scans(LidarDriver &ld, int count) {
+  std::cout << "Situazione corrente dello storico delle scansioni:"
+            << std::endl;
+  for (int i = 0; i < count; i++)
+    std::cout << "buffer[" << i
+              << "][0]: " << ld.get_distance_from_specific_scan(0, i)
+              << std::endl;
 }

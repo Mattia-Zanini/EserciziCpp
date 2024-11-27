@@ -4,18 +4,20 @@
 #include <math.h>
 #include <vector>
 
+// Costruttori: inizializza le variabili e crea una matrice che ha un numero di
+// colonne pari a buffer_dim e ciascuna di esse è di tipo double ed è lunga view
 LidarDriver::LidarDriver()
     : resolution{1.0}, index{0}, scansion_dim{static_cast<int>(1 + view)} {
   buffer.resize(buffer_dim, std::vector<double>(scansion_dim));
 }
-
-// costruttore: inizializza le variabili e crea una matrice che ha un numero di
-// colonne pari a buffer_dim e ciascuna di esse è di tipo double ed è lunga view
 LidarDriver::LidarDriver(double r)
     : resolution{r}, index{0}, scansion_dim{static_cast<int>(1 + view / r)} {
   buffer.resize(buffer_dim, std::vector<double>(scansion_dim));
 }
 
+// Aggiunge una nuova scansione al buffer, adattandola alla dimensione prevista.
+// Gestisce la circolarità del buffer sovrascrivendo gli elementi più vecchi
+// quando è pieno.
 void LidarDriver::new_scan(const std::vector<double> &values) {
   std::vector<double> adjusted_values = values;
   // Se la dimensione dei valori è inferiore al previsto, aggiungi zeri
@@ -38,6 +40,13 @@ void LidarDriver::new_scan(const std::vector<double> &values) {
   }
 }
 
+// Se il buffer non è pieno, le scansioni vengono semplicemente spostate in
+// avanti per coprire il vuoto lasciato dalla rimozione. Se il buffer è pieno,
+// la natura circolare del buffer viene temporaneamente eliminata: le scansioni
+// più nuove (prima di index) vengono salvate in un'area temporanea, mentre le
+// scansioni più vecchie (dopo index) vengono spostate all'inizio del buffer.
+// Successivamente, le scansioni più nuove vengono reinserite in fondo al
+// buffer, ripristinando un ordine lineare.
 std::vector<double> LidarDriver::get_scan() {
   // caso 1: Lidar non pieno (-> gli x<buffer_dim elementi del Lidar si trovano
   // nelle prime x posizioni)
@@ -88,11 +97,16 @@ std::vector<double> LidarDriver::get_scan() {
   }
 }
 
+// Resetta lo stato del buffer, cancellando tutte le scansioni memorizzate
+// resettando il valore di index a zero
 void LidarDriver::clear_buffer() {
   index = 0;
   is_full = false;
 }
 
+// Restituisce la distanza rilevata a un angolo specificato nella scansione più
+// recente. Controlla la validità di angolo e la disponibilità di scansioni
+// (quando index = 0 e il buffer non è pieno).
 double LidarDriver::get_distance(double alfa) {
   if (alfa < 0 || alfa > 180)
     throw LidarDriver::AngleOutOfBound(); // l'angolo inserito non è valido
@@ -109,8 +123,10 @@ double LidarDriver::get_distance(double alfa) {
   return buffer[index - 1][round(alfa / resolution)];
 }
 
-double LidarDriver::get_distance_from_specific_scan(double alfa,
-                                                    int scan_index) {
+// Restituisce la distanza rilevata a un angolo specificato da una scansione
+// indicata tramite indice. Verifica validità di angolo e indice.
+const double LidarDriver::get_distance_from_specific_scan(double alfa,
+                                                          int scan_index) {
   if (alfa < 0 || alfa > 180)
     throw LidarDriver::AngleOutOfBound();
 
@@ -120,6 +136,8 @@ double LidarDriver::get_distance_from_specific_scan(double alfa,
   return buffer[scan_index][round(alfa / resolution)];
 }
 
+// Stampa tutte le distanze rilevate a ogni angolo, per la scansione più
+// recente e scrivendo all'inizio il valore della risoluzione
 std::ostream &operator<<(std::ostream &os, LidarDriver &ld) {
   constexpr static int view = 180; // angolo di vista costante
   const double resolution = ld.get_resolution();

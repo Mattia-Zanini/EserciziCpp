@@ -30,7 +30,7 @@ public:
 
   // !!! solo per debugging e dimostrazione del corretto funzionamento del
   // codice stampa la distanza ad un certo angolo da una specifica scansione
-  double get_distance_from_specific_scan(double alfa, int scan_index);
+  const double get_distance_from_specific_scan(double alfa, int scan_index);
   class ScanIndexOutOfBound {};
 
   // getter
