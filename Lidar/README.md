@@ -2,8 +2,7 @@
 
 **Contributi al progetto:**
 
-1. **Emanuele Braccini**  
-   - Scritte le dichiarazioni della classe nel file header
+1. **Emanuele Braccini**
    - Implementato il costruttore della classe `LidarDriver`.  
    - Sviluppato la funzione membro `new_scan` per aggiungere nuove scansioni al buffer.
 
@@ -20,3 +19,5 @@
    - Implementato l'overload dell'operatore `<<` per stampare i dati di scansione.  
    - Creata la funzione membro `get_distance_from_specific_scan` per ottenere la distanza da una scansione specifica e un angolo dato.
    - `get_resolution` per ottenere la risoluzione del Lidar
+
+Le dichiarazioni delle funzioni membro e delle variabili membro della classe nel file header sono state svolte insieme, con tutti e 3 i membri del gruppo, durante l'ora di lezione in laboratorio giovedì
