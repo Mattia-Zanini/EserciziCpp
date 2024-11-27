@@ -19,3 +19,4 @@
    - Sviluppato il **main** per testare la classe `LidarDriver`.  
    - Implementato l'overload dell'operatore `<<` per stampare i dati di scansione.  
    - Creata la funzione membro `get_distance_from_specific_scan` per ottenere la distanza da una scansione specifica e un angolo dato.
+   - `get_resolution` per ottenere la risoluzione del Lidar
