@@ -1,0 +1,11 @@
+abbiamo compilato il codice e' gia' li' ci siamo accorti che qualxos non andava
+SCREEN DELL'OUTPUT DOPO COMPILAZIONE
+
+Errori Scan.cpp
+- Costruttore: non hanno fatto il controllo sull'angolo di risoluzione, utilizzando una risoluzione di 10 gradi nel test
+la dimesnione del vettore dim e' inizializzata a 180 / ra perdendo un valore, infatti se la risoluzione fosse 1 grado dovrei avere 181 celle e invece cosi' ne ottengo 180;
+
+
+
+Errori Tester
+- nell'output mancano indicazione su cio' che viene4 testato, passo per passo
