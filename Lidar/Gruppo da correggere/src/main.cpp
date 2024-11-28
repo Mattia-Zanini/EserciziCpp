@@ -1,6 +1,4 @@
 #include "../include/LidarDriver.h"
-#include "Scan.cpp"
-#include "LidarDriver.cpp"
 
 #include <iostream>
 #include <vector>
