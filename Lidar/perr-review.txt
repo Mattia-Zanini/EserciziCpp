@@ -1,13 +1,71 @@
-abbiamo compilato il codice e' gia' li' ci siamo accorti che qualxos non andava
-SCREEN DELL'OUTPUT DOPO COMPILAZIONE
+Abbiamo compilato il codice e' gia' li' ci siamo accorti che qualcosa non andava.
+
+Eseguendo il codice nei computer del laboratorio il programma termina con eccezione non 
+gestista "eccezione in virgola mobile (core dump creato)" alla riga 37, riguardante il new_scan
+successivo al std::cout<<"Palle 3\n";
+Eseguendo invece il programma dai nostri computer personali esso termina sempre con una eccezione
+non gestista, alla riga 50, quando viene invocata la funzione membro get_distance di LidarDriver:
+
+libc++abi: terminating due to uncaught exception of type std::out_of_range: vector
+zsh: abort      ./main
+
+Proseguendo l'esecuzione del tester non viene eseguito il for del main.cpp a riga 44 e il motivo è che v3 
+è un vettore di lunghezza zero
+perchè il get_scan restituisce un vettore vuoto, get_scan si comporta in questo modo perchè viene chiamata la funzione
+membro to_vector di Scan e questa non esegue il for per ottenere i valori della scansione perchè nel main
+viene invocata new_scan che inserisce correttamente la scansione, PERO' al costruttore di Scan viene passato
+un valore NON corretto, ovvero l'angolar_resolution dovuto al problema (4) di LidarDriver.cpp, di fatto
+quindi viene ritornato un vettore vuoto.
+
+Nel main quando viene vengono inserite le due scansioni, viene in seguito invocata la funzione membro
+get_scan che causa il problema (5) di LidarDriver.cpp. Quest'ultimo si protrae successivamente in 
+get_distance dove viene quindi eseguito l'if a riga 62, indipendentemente da quante scansioni sono state
+inserite nel buffer, ritornando solo la lettura dell'ultima scansione che starebbe nel buffer e
+questo causa un eccezione di std::out_of_range se non è stato inizializzata la suddetta scansione.
+Questo problema quindi si verifica sempre nel main fornito dal gruppo che ha scritto questo programma
+perchè vengono inizializzate sono le prime due scansioni dell'intero buffer.
+Tuttavia se si sistema il punto (5) di LidarDriver.cpp, mettendo la corretta condizione, ovvero
+(index == 0), comunque sorge un problema dovuto al punto (4) di LidarDriver.cpp perchè nella funzione membro
+get_reading di Scan quando viene arrotondato il risultato della divisione "deg/angular_resolution"
+(riga 57 di Scan.cpp). Il risultato di questa divisione è 2147483647 ( = INT32_MAX) dovuto al punto (4)
+di LidarDriver.cpp e quindi quando si esegue la riga 58 di Scan.cpp viene lanciata l'eccezione std::out_of_range
+per via dell'alto valore di index
+
+
+Altri errori:
 
 Errori Scan.cpp
 la dimesnione del vettore dim e' inizializzata a 180 / ra perdendo un valore, infatti se 
 la risoluzione fosse 1 grado dovrei avere 181 celle e invece cosi' ne ottengo 180
-
-- get_reading: viene lanciata un'eccezzione anche quando l'angolo inserito è = 0 oppure = 180
-
+- get_reading: viene lanciata un'eccezione anche quando l'angolo inserito è = 0 oppure = 180
 
 Errori Tester
-- nell'output mancano indicazione su cio' che viene4 testato, passo per passo
+- nell'output mancano indicazioni su cio' che viene testato, passo per passo
 - sono state implementate delle eccezzioni ma non vengono testate
+- non sono stati usati try-catch per verificare il lancio delle eccezzioni
+
+Errori LidarDriver.cpp
+1) la funzione membro get_scan NON elimina l'ultima scansione
+2) get_distance fa un controllo sull'angolo inserito, ma viene fatto il medesimo controllo sul metodo
+get_reading considerando valori non validi 0 e 180 gradi
+3) clear_buffer non modifica il puntatore dell'array delle scansioni a nullptr
+4) Nel costruttore che accetta come parametro un double come valore da assegnare ad angolar_resolution
+questo valore però viene arrotondato ad un intero visto che nella dichiarazione della classe questa 
+variabile membro è definita come un intero quindi quando passo un valore compreso tra 0.1 e 1 (escluso quest'ultimo)
+questo valore viene arrotondato a 0.
+5) Nella funzione membro get_scan alla riga 40 c'è un if dove al posto della condizione (index == 0) c'è
+scritto (index = 0) che viene eseguita assegnando a index il valore 0, e in seguito il programma passa al 
+sucessivo controllo if.
+
+Errori LidarDriver.h
+- la variabile membro angular_resolution viene dichiarata come int, ma dovrebbe essere double
+
+Ottimizzazioni/Problemi strutturali:
+- Non hanno messo la variabile membro angular_resolution di LidarDriver.cpp come CONST
+- Non hanno messo la variabile membro BUFFER_DIM come variabile statica
+- Non hanno assegnato ad una variabile statica costante il valore dell'angolo di vista massima 
+di 180°, utilizzando 180 come magic number
+- Troppi pochi commenti che hanno reso ancora più difficile il debugging del codice
+- La scelta di fare una classe per le singole scansioni ha complicato l'intero progetto
+- Sono stati realizzati due costruttori nella classe Scan.cpp nonstante si potesse raggiungere lo stesso
+risultato con un solo costruttore
