@@ -23,10 +23,6 @@ public:
   void update_robot_position(int);
   // ritorna le 8 celle adiacenti al robot
   const std::vector<char> get_maze_chunck() const;
-
-  class ErrorAtReadingMaze {};
-  class IncorrectMazeFormat {};
-  class IncorrectRobotPlacement {};
 };
 
 // stampa il labirinto con la posizione corrente del robot
