@@ -35,6 +35,9 @@
         "-fansi-escape-codes",
         "-g",
         "Maze.cpp",
+        "Robot.cpp",
+        "RandomRobot.cpp",
+        "RightHandRuleRobot.cpp",
         "${file}",
         "-o",
         "${fileDirname}/${fileBasenameNoExtension}"

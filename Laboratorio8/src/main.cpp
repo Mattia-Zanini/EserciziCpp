@@ -8,14 +8,15 @@
 #include <vector>
 
 int main(int argc, char *argv[]) {
-  if (argc != 1) {
+  /*if (argc != 2) {
     std::cout << "manca il file del labirinto\n";
     return -1;
   }
+  */
 
   std::fstream fs = std::fstream();
   // fs.open(argv[1], std::fstream::in);
-  fs.open("../maze.txt", std::fstream::in);
+  fs.open("../maze2.txt", std::fstream::in);
   if (fs.fail()) {
     std::cout << "errore nell'apertura del file\n";
     return -1;
@@ -24,9 +25,33 @@ int main(int argc, char *argv[]) {
   std::filebuf *buffer = fs.rdbuf();
   Maze mz = Maze(buffer);
 
-  fs.close();
+  fs.close(); // chiudo il file
   buffer = nullptr;
 
-  std::cout << mz;
-  const std::vector<char> test = mz.get_maze_chunck();
+  std::cout << mz << "\n";
+  int count_random = 0;
+  int count_right_rule = 0;
+
+  RightHandRuleRobot rhrR = RightHandRuleRobot();
+  do {
+    rhrR.move(mz);
+    count_right_rule++;
+    std::cout << mz << "\n";
+  } while (!rhrR.has_won());
+
+  mz.reset_maze(); // resetto il labirinto
+  std::cout << "Labirinto resettato\n\n";
+  std::cout << mz << "\n";
+
+  RandomRobot rr = RandomRobot();
+  do {
+    rr.move(mz);
+    count_random++;
+    std::cout << mz << "\n";
+  } while (!rr.has_won());
+
+  std::cout << "Il RightHandRuleRobot ha impiegato: " << count_right_rule
+            << " mosse per vincere\n";
+  std::cout << "Il RandomRobot ha impiegato: " << count_random
+            << " mosse per vincere\n";
 }
