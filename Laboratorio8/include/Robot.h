@@ -11,7 +11,6 @@ protected:
   bool win = false;
 
 public:
-  Robot() = default;
   void virtual move(Maze &) = 0;
   bool has_won() const;
 
