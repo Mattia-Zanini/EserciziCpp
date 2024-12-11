@@ -1,0 +1,2 @@
+/Library/Developer/CommandLineTools/usr/bin/ar qc libRightHandRuleRobot.a CMakeFiles/RightHandRuleRobot.dir/src/RightHandRuleRobot.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/ranlib libRightHandRuleRobot.a
