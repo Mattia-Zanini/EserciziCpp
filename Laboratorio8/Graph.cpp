@@ -5,9 +5,9 @@
 class Vertex {
 public:
   int ID; // Identificatore univoco del vertice
-  bool visited = false;
+  bool visited;
 
-  Vertex(int id) : ID(id) {}
+  Vertex(int id) : ID(id) { visited = false; }
 
   // Sovraccarico dell'operatore di uguaglianza per confrontare vertici tramite
   // ID
@@ -131,8 +131,8 @@ public:
 
     // Segna il vertice di partenza come visitato e lo aggiunge al vettore di
     // visita
-    toVisit.push_back(vertices.front());
     vertices.front().visited = true;
+    toVisit.push_back(vertices.front());
 
     // Esegue la BFS
     for (int i = 0; i < toVisit.size(); i++) {

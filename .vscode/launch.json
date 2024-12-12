@@ -1,16 +1,16 @@
 {
   "configurations": [
     {
-      "name": "C/C++: clang++ build and debug active file",
-      "type": "cppdbg",
+      "name": "C/C++: clang++ build and debug active file lldb",
+      "type": "lldb",
       "request": "launch",
       "program": "${fileDirname}/${fileBasenameNoExtension}",
       "args": [],
-      "stopAtEntry": true,
+      //"stopAtEntry": false,
       "cwd": "${fileDirname}",
-      "environment": [],
-      "externalConsole": false,
-      "MIMode": "lldb",
+      //"environment": [],
+      //"externalConsole": false,
+      //"MIMode": "lldb",
       "preLaunchTask": "C/C++: clang++ build active file"
     },
     {
