@@ -27,6 +27,11 @@ add_library(RightHandRuleRobot
 	src/RightHandRuleRobot.cpp
 )
 
+add_library(MazeGraph
+	include/MazeGraph.h
+	src/MazeGraph.cpp
+)
+
 add_executable(main
 	main.cpp
 )
@@ -36,4 +41,5 @@ target_link_libraries(main
 	Robot
 	RandomRobot
 	RightHandRuleRobot
+	MazeGraph
 )

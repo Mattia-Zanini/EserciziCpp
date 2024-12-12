@@ -12,16 +12,13 @@ private:
 
   // ritorna true se c'è una casella con un muro vicino
   bool is_there_wall_nearby(const std::vector<char> &) const;
-  int move_random(const std::vector<char> &);
+  int move_random(Maze &, const std::vector<char> &);
   int move_right_rule(const std::vector<char> &);
 
 public:
   RightHandRuleRobot();
   void move(Maze &) override;
   int robot_orientation(const std::vector<char> &);
-
-  RightHandRuleRobot(const RightHandRuleRobot &) = delete;
-  RightHandRuleRobot &operator=(const RightHandRuleRobot &) = delete;
 
   class CantDefineOrientation {};
 };

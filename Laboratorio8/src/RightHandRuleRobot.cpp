@@ -18,7 +18,7 @@ void RightHandRuleRobot::move(Maze &mz) {
   int relative_move_value = 0;
 
   if (!is_there_wall_nearby(nearby_cells))
-    relative_move_value = move_random(nearby_cells);
+    relative_move_value = move_random(mz, nearby_cells);
   else
     relative_move_value = move_right_rule(nearby_cells);
 
@@ -30,9 +30,10 @@ void RightHandRuleRobot::move(Maze &mz) {
     win = true;
 }
 
-int RightHandRuleRobot::move_random(const std::vector<char> &cells_near_robot) {
+int RightHandRuleRobot::move_random(Maze &mz,
+                                    const std::vector<char> &cells_near_robot) {
   const std::vector<int> relative_vector =
-      calc_relative_vector(cells_near_robot);
+      mz.calc_relative_vector(cells_near_robot);
 
   int rnd_move_index = gen_rnd_value(relative_vector.size());
   return relative_vector[rnd_move_index];

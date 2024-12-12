@@ -60,5 +60,6 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/Robot.dir/DependInfo.cmake"
   "CMakeFiles/RandomRobot.dir/DependInfo.cmake"
   "CMakeFiles/RightHandRuleRobot.dir/DependInfo.cmake"
+  "CMakeFiles/MazeGraph.dir/DependInfo.cmake"
   "CMakeFiles/main.dir/DependInfo.cmake"
   )

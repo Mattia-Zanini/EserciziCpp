@@ -37,16 +37,24 @@ int main(int argc, char *argv[]) {
     std::cout << mz << "\n";
   } while (!rhrR.has_won());
 
-  mz.reset_maze(); // resetto il labirinto
-  std::cout << "Labirinto resettato\n\n";
-  std::cout << mz << "\n";
+  std::string answer;
+  std::cout << "Vuoi che pure il RandomRobot provi a risolvere questo "
+               "labirinto? [S\\n]\n";
+  std::cin >> answer;
 
-  RandomRobot rr = RandomRobot();
-  do {
-    rr.move(mz);
-    count_random++;
+  if (answer == "S" || answer == "s") {
+
+    mz.reset_maze(); // resetto il labirinto
+    std::cout << "Labirinto resettato\n\n";
     std::cout << mz << "\n";
-  } while (!rr.has_won());
+
+    RandomRobot rr = RandomRobot();
+    do {
+      rr.move(mz);
+      count_random++;
+      std::cout << mz << "\n";
+    } while (!rr.has_won());
+  }
 
   std::cout << "Il RightHandRuleRobot ha impiegato: " << count_right_rule
             << " mosse per vincere\n";

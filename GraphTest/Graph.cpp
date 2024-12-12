@@ -125,42 +125,48 @@ public:
   }
 
   // Ricerca in ampiezza (BFS) partendo da un dato vertice
-  void BFS() {
+  bool BFS(int startVertex, int endVertex) {
     // Vettore che funge da lista per la BFS
     std::vector<Vertex> toVisit;
 
     // Segna il vertice di partenza come visitato e lo aggiunge al vettore di
     // visita
-    vertices.front().visited = true;
-    toVisit.push_back(vertices.front());
+    Vertex *const s = get_vertex(startVertex);
+    Vertex *const e = get_vertex(endVertex);
+    if (s == nullptr || e == nullptr)
+      throw std::invalid_argument("Uno dei due vertici non fa parte del grafo");
+
+    toVisit.push_back((*s));
 
     // Esegue la BFS
     for (int i = 0; i < toVisit.size(); i++) {
       Vertex current = toVisit[i];
+
+      // Se il vertice corrente è il vertice di destinazione, esiste un cammino
+      if (current.ID == endVertex)
+        return true;
+
       // Processa il vertice corrente (stampa per dimostrazione)
       std::cout << "Vertice visitato: " << current.ID << std::endl;
+
       // Ottiene tutti gli archi incidenti al vertice corrente
       const std::vector<Edge> incident = incidentEdges(current);
 
       for (int j = 0; j < incident.size(); j++) {
         Vertex *const neighbor = opposite(current, incident[j]);
 
-        // Se il vicino non è stato visitato, lo segna e lo aggiunge al vettore
-        // di visita
+        // Se il vicino non è stato visitato, lo segna e lo aggiunge
+        // alla lista di visita
         if ((*neighbor).visited == false) {
           (*neighbor).visited = true;
           toVisit.push_back((*neighbor));
         }
       }
     }
-  }
 
-  bool is_connected() {
-    for (int i = 0; i < vertices.size(); i++)
-      if (vertices[i].visited == false)
-        return false;
-
-    return true;
+    // Se il BFS termina senza trovare il vertice di destinazione, non esiste un
+    // cammino
+    return false;
   }
 };
 
@@ -198,16 +204,21 @@ int main() {
               << ", " << edges[0].vertex2_ID << ") è " << (*opp).ID
               << std::endl;
 
-    // Esegue la BFS
+    // Esegue la BFS per vedere se tra due vertici esiste un cammino
+    int start_id = 0;
+    int end_id = 30;
+    std::cout << "Vertice d'inizio: " << start_id << std::endl;
+    std::cout << "Vertice di fine: " << end_id << std::endl;
     std::cout << "Esecuzione della BFS a partire dal primo vertice"
               << std::endl;
-    g.BFS();
+
+    bool status = g.BFS(start_id, end_id);
+
+    std::cout << "L'uscita è raggiungibile? " << status << std::endl;
 
   } catch (const std::exception &ex) {
     std::cerr << "Errore: " << ex.what() << std::endl;
   }
-
-  std::cout << "G è un grafo connesso? " << g.is_connected() << std::endl;
 
   return 0;
 }

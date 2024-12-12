@@ -6,7 +6,8 @@ RandomRobot::RandomRobot() {} // non fa nulla
 // muove il robot in posizioni randomiche valide
 void RandomRobot::move(Maze &mz) {
   const std::vector<char> nearby_cells = mz.get_maze_chunck();
-  const std::vector<int> relative_vector = calc_relative_vector(nearby_cells);
+  const std::vector<int> relative_vector =
+      mz.calc_relative_vector(nearby_cells);
 
   const int rnd_move_index = gen_rnd_value(relative_vector.size());
 

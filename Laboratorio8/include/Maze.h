@@ -6,16 +6,20 @@
 
 class Maze {
 private:
+  const static std::vector<int> relative_position;
   // massimo numero di celle nel labirinto
   constexpr static int MAX_CELLS_NUMBER = 81;
-  int current_robot_position = -1;
-  int exit_position = -1;
+  int current_robot_position;
+  int exit_position;
   std::vector<char> maze;
 
   bool is_maze_valid(); // controlla se il labirinto sia valido
 
   // imposta le posizioni iniziali del robot e dell'uscita
   void init_positions();
+
+  // ritorna le 8 celle adiacenti ad una specifica casella
+  const std::vector<char> get_maze_chunck_from_cell(int) const;
 
 public:
   Maze();                           // labirinto vuoto
@@ -34,6 +38,7 @@ public:
   const std::vector<char> get_maze_chunck() const;
   // ritorna l'intero labirinto
   const std::vector<char> get_maze() const;
+  std::vector<int> calc_relative_vector(const std::vector<char> &) const;
 
   class ErrorAtReadingMaze {};
   class IncorrectMazeFormat {};

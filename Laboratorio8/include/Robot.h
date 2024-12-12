@@ -8,7 +8,6 @@ class Robot {
 protected:
   Robot();
   int gen_rnd_value(int) const;
-  std::vector<int> calc_relative_vector(const std::vector<char> &) const;
   bool win = false;
 
 public:
