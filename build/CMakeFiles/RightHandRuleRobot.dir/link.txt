@@ -1,0 +1,2 @@
+/usr/bin/ar qc libRightHandRuleRobot.a CMakeFiles/RightHandRuleRobot.dir/src/RightHandRuleRobot.cpp.o
+/usr/bin/ranlib libRightHandRuleRobot.a

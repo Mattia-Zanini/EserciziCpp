@@ -1,0 +1,32 @@
+[
+{
+  "directory": "/Users/mattia/Documents/GitHub/EserciziCpp/build",
+  "command": "/usr/bin/clang++  -I/Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/include, -I/Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/src -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk -mmacosx-version-min=14.7 -o CMakeFiles/Maze.dir/src/Maze.cpp.o -c /Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/src/Maze.cpp",
+  "file": "/Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/src/Maze.cpp",
+  "output": "CMakeFiles/Maze.dir/src/Maze.cpp.o"
+},
+{
+  "directory": "/Users/mattia/Documents/GitHub/EserciziCpp/build",
+  "command": "/usr/bin/clang++  -I/Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/include, -I/Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/src -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk -mmacosx-version-min=14.7 -o CMakeFiles/Robot.dir/src/Robot.cpp.o -c /Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/src/Robot.cpp",
+  "file": "/Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/src/Robot.cpp",
+  "output": "CMakeFiles/Robot.dir/src/Robot.cpp.o"
+},
+{
+  "directory": "/Users/mattia/Documents/GitHub/EserciziCpp/build",
+  "command": "/usr/bin/clang++  -I/Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/include, -I/Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/src -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk -mmacosx-version-min=14.7 -o CMakeFiles/RandomRobot.dir/src/RandomRobot.cpp.o -c /Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/src/RandomRobot.cpp",
+  "file": "/Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/src/RandomRobot.cpp",
+  "output": "CMakeFiles/RandomRobot.dir/src/RandomRobot.cpp.o"
+},
+{
+  "directory": "/Users/mattia/Documents/GitHub/EserciziCpp/build",
+  "command": "/usr/bin/clang++  -I/Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/include, -I/Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/src -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk -mmacosx-version-min=14.7 -o CMakeFiles/RightHandRuleRobot.dir/src/RightHandRuleRobot.cpp.o -c /Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/src/RightHandRuleRobot.cpp",
+  "file": "/Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/src/RightHandRuleRobot.cpp",
+  "output": "CMakeFiles/RightHandRuleRobot.dir/src/RightHandRuleRobot.cpp.o"
+},
+{
+  "directory": "/Users/mattia/Documents/GitHub/EserciziCpp/build",
+  "command": "/usr/bin/clang++  -I/Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/include, -I/Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/src -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk -mmacosx-version-min=14.7 -o CMakeFiles/main.dir/main.cpp.o -c /Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/main.cpp",
+  "file": "/Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/main.cpp",
+  "output": "CMakeFiles/main.dir/main.cpp.o"
+}
+]

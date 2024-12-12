@@ -54,5 +54,6 @@
         "algorithm": "cpp",
         "fstream": "cpp",
         "iomanip": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "/Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8"
 }
