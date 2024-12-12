@@ -8,6 +8,9 @@ class RandomRobot : public Robot {
 public:
   RandomRobot();
   void move(Maze &) override;
+
+  RandomRobot(const RandomRobot &) = delete;
+  RandomRobot &operator=(const RandomRobot &) = delete;
 };
 
 #endif

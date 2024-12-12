@@ -20,6 +20,9 @@ public:
   void move(Maze &) override;
   int robot_orientation(const std::vector<char> &);
 
+  RightHandRuleRobot(const RightHandRuleRobot &) = delete;
+  RightHandRuleRobot &operator=(const RightHandRuleRobot &) = delete;
+
   class CantDefineOrientation {};
 };
 
