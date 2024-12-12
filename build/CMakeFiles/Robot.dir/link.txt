@@ -1,2 +1,0 @@
-/usr/bin/ar qc libRobot.a CMakeFiles/Robot.dir/src/Robot.cpp.o
-/usr/bin/ranlib libRobot.a
