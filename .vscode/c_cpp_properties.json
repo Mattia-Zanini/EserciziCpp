@@ -16,6 +16,20 @@
             "compilerArgs": [
                 "-std=c++17"
             ]
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-clang-arm64",
+            "compilerArgs": [
+                "-std=c++17"
+            ]
         }
     ],
     "version": 4

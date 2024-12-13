@@ -2,6 +2,7 @@
 #include "../include/MazeGraph.h"
 
 #include <fstream>
+#include <iostream>
 
 const std::vector<int> Maze::relative_position({-10, -9, -8, -1, 1, 8, 9, 10});
 Maze::Maze() {
@@ -145,6 +146,9 @@ void Maze::init_positions() {
     }
   }
 
+  if (current_robot_position == -1)
+    throw StartDoesNotExist();
+
   // ottengo la posizione iniziale dell'uscita
   for (int i = 0; i < MAX_CELLS_NUMBER; i++) {
     if (maze[i] == 'E' || maze[i] == 'e') {
@@ -153,6 +157,9 @@ void Maze::init_positions() {
       break;
     }
   }
+
+  if (exit_position == -1)
+    throw ExitDoesNotExist();
 }
 
 std::vector<int>
@@ -168,8 +175,14 @@ Maze::calc_relative_vector(const std::vector<char> &relative_pos) const {
   return relative_vector;
 }
 
-void Maze::reset_maze() { init_positions(); }
+void Maze::reset_maze() {
+  current_robot_position = -1;
+  exit_position = -1;
+  init_positions();
+}
+
 const std::vector<char> Maze::get_maze() const { return maze; }
+
 const int Maze::get_current_robot_position() const {
   return current_robot_position;
 }

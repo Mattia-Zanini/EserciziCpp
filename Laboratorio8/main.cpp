@@ -1,6 +1,6 @@
-#include "../include/Maze.h"
-#include "../include/RandomRobot.h"
-#include "../include/RightHandRuleRobot.h"
+#include "include/Maze.h"
+#include "include/RandomRobot.h"
+#include "include/RightHandRuleRobot.h"
 
 #include <cstdio>
 #include <fstream>

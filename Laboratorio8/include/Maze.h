@@ -42,6 +42,8 @@ public:
 
   class ErrorAtReadingMaze {};
   class IncorrectMazeFormat {};
+  class ExitDoesNotExist {};
+  class StartDoesNotExist {};
 };
 
 // stampa il labirinto con la posizione corrente del robot

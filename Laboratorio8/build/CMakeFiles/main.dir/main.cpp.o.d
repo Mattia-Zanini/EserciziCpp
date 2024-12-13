@@ -1,6 +1,6 @@
 CMakeFiles/main.dir/main.cpp.o: \
   /Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/main.cpp \
-  /Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/src/../include/Maze.h \
+  /Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/include/Maze.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/fstream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/__algorithm/max.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/__algorithm/comp.h \
@@ -976,7 +976,7 @@ CMakeFiles/main.dir/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/__filesystem/path_iterator.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/__filesystem/recursive_directory_iterator.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/__filesystem/u8path.h \
-  /Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/src/../include/RandomRobot.h \
-  /Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/src/../include/Robot.h \
-  /Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/src/../include/RightHandRuleRobot.h \
+  /Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/include/RandomRobot.h \
+  /Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/include/Robot.h \
+  /Users/mattia/Documents/GitHub/EserciziCpp/Laboratorio8/include/RightHandRuleRobot.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/iostream
