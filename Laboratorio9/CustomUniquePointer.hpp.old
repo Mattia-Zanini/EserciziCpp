@@ -1,0 +1,34 @@
+#ifndef CUSTOMUNIQUEPOINTER_H
+#define CUSTOMUNIQUEPOINTER_H
+
+// Costruttore: accetta un puntatore a oggetto dinamico
+template <typename T>
+CustomUniquePointer<T>::CustomUniquePointer() : ptr(nullptr) {}
+
+// Costruttore: accetta un puntatore a oggetto dinamico
+template <typename T>
+CustomUniquePointer<T>::CustomUniquePointer(T *raw_ptr) : ptr(raw_ptr) {}
+
+// Distruttore: libera la memoria gestita
+template <typename T> CustomUniquePointer<T>::~CustomUniquePointer() {
+  delete ptr;
+}
+
+// Operatore ->: permette l'accesso ai membri dell'oggetto gestito
+template <typename T> T *CustomUniquePointer<T>::operator->() const {
+  return ptr;
+}
+
+// Operatore *: restituisce una referenza all'oggetto gestito
+template <typename T> T &CustomUniquePointer<T>::operator*() const {
+  return *ptr;
+}
+
+// Metodo release: rilascia la proprietà del puntatore e lo restituisce
+template <typename T> T *CustomUniquePointer<T>::release() {
+  T *old_ptr = ptr; // Conserva il puntatore corrente
+  ptr = nullptr;    // Annulla il puntatore interno
+  return old_ptr;   // Restituisce il puntatore originale
+}
+
+#endif
