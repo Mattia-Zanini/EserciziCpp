@@ -1,4 +1,4 @@
-#include "Casa.h"
+#include "../include/Casa.h"
 #include <iostream>
 #include <exception>
 

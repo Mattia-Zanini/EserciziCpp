@@ -1,4 +1,4 @@
-#include "Dispositivo.h"
+#include "../include/Dispositivo.h"
 
 // Costruttore della classe base Dispositivo
 Dispositivo::Dispositivo(std::string n, int indirizzo, double p)

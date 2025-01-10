@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/c++  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk -mmacosx-version-min=14.7 -Wl,-search_paths_first -Wl,-headerpad_max_install_names -L/opt/homebrew/opt/e2fsprogs/lib CMakeFiles/main.dir/main.cpp.o -o main  libCasa.a libCicloPrefissato.a libDispositivo.a libManuale.a

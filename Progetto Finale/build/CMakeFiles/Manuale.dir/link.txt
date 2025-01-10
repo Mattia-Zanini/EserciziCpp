@@ -1,0 +1,2 @@
+/Library/Developer/CommandLineTools/usr/bin/ar qc libManuale.a CMakeFiles/Manuale.dir/src/Manuale.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/ranlib libManuale.a

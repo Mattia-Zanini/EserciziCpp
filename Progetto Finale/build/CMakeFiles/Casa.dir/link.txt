@@ -1,0 +1,2 @@
+/Library/Developer/CommandLineTools/usr/bin/ar qc libCasa.a CMakeFiles/Casa.dir/src/Casa.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/ranlib libCasa.a

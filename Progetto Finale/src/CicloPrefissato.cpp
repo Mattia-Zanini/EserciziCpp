@@ -1,5 +1,5 @@
-#include "CicloPrefissato.h"
-#include "Dispositivo.h"
+#include "../include/CicloPrefissato.h"
+#include "../include/Dispositivo.h"
 
 // Costruttore
 CicloPrefissato::CicloPrefissato(std::string n, int indirizzo, double p, int t)
