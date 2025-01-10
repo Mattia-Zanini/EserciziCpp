@@ -33,7 +33,6 @@ class Casa{
         void setOrario(int x); //esegue comando "set time ${TIME}"
         std::string resetTimers(); //esegue comando "reset timers"
         void resetAll(); //esegue comando "reset all"
-
 };
 
 std::string intToOrario(int x); //trasforma il numero di minuti passati dalle 00:00 in formato hh:mm

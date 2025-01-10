@@ -4,7 +4,8 @@
 
 std::string lowerString(const std::string s);
 void removeUnnecessarySpaces(std::string &s);
-std::vector<std::string> splitString(std::string s);
+std::vector<std::string> splitString(std::string s, const char c);
+int orarioToInt(std::string s);
 void printCommands();
 
 int main(int argc, char *argv[]) {
@@ -43,12 +44,19 @@ int main(int argc, char *argv[]) {
       // stampo la lista dei comandi
       printCommands();
     } else if (answer.find("set") != std::string::npos) {
-      commands = splitString(answer);
+      commands = splitString(answer, ' ');
       try {
-        if (commands.at(2) == "on")
+        if (commands.at(1) == "time")
+          home.setOrario(orarioToInt(commands.at(2)));
+        else if (commands.at(2) == "on")
           home.accendiDispositivo(commands.at(1));
         else if (commands.at(2) == "off")
           home.spegniDispositivo(commands.at(1));
+        else if (commands.size() == 4) // set ${DEVICENAME} ${START} [${STOP}]
+          home.impostaTimer(commands.at(1), orarioToInt(commands.at(2)),
+                            orarioToInt(commands.at(3)));
+        else if (commands.size() == 3) // set ${DEVICENAME} ${START}
+          home.impostaTimer(commands.at(1), orarioToInt(commands.at(2)));
 
       } catch (std::out_of_range const &e) {
         std::cout << "Mancano dei parametri" << '\n';
@@ -99,13 +107,14 @@ void removeUnnecessarySpaces(std::string &s) {
   }
 }
 
-// Data una stringa, la suddivide in sottostringhe, in base agli spazi (= ' ')
-std::vector<std::string> splitString(std::string s) {
+// Data una stringa, la suddivide in sottostringhe,
+// in base a un carattere separatore 'c'
+std::vector<std::string> splitString(std::string s, const char c) {
   std::vector<std::string> ss(1);
   int spaces = 0;
 
   for (std::string::iterator is = s.begin(); is != s.end(); ++is) {
-    if (*(is) == ' ') {
+    if (*(is) == c) {
       spaces++;
       ss.push_back("");
     } else
@@ -113,6 +122,25 @@ std::vector<std::string> splitString(std::string s) {
   }
 
   return ss;
+}
+
+int orarioToInt(std::string s) {
+  std::vector<std::string> hm = splitString(s, ':');
+  if (hm.size() != 2)
+    throw std::invalid_argument("<time> non è in un formato valido");
+
+  int h = -1;
+  int m = -1;
+  try {
+    h = std::stoi(hm[0]);
+    m = std::stoi(hm[1]);
+  } catch (const std::exception &e) {
+    // Lancio questa eccezzione, così sfrutto il catch del main
+    // per stampare nel terminale l'eccezione
+    throw std::invalid_argument("<time> non è in un formato valido");
+  }
+
+  return h * 60 + m;
 }
 
 void printCommands() {
@@ -131,11 +159,10 @@ void printCommands() {
                "accensione e spegnimento per il dispositivo. L'orario di "
                "spegnimento è disponibile per solo i dispositivi M.\n\n";
   std::cout << "- show\t\t\t\t\t Mostra la lista di tutti i dispositivi "
-               "(attivi e "
-               "inattivi) con la produzione/consumo energetico di ciascuno "
-               "dalle 00:00 al momento di invio del comando. Inoltre "
-               "mostra la produzione/consumo energetico totale del sistema "
-               "dalle 00:00 al momento di invio del comando\n\n";
+               "(attivi e inattivi) con la produzione/consumo energetico"
+               "di ciascuno dalle 00:00 al momento di invio del comando."
+               " Inoltre mostra la produzione/consumo energetico totale "
+               "del sistema dalle 00:00 al momento di invio del comando\n\n";
   std::cout << "- show ${DEVICENAME}\t\t\t Mostra a schermo produzione/consumo "
                "energetico di uno specifico dispositivo\n\n";
 }
