@@ -1,14 +1,17 @@
 #include "include/Casa.h"
+#include <fstream>
 #include <iostream>
 #include <string>
 
 void removeUnnecessarySpaces(std::string &s);
 std::vector<std::string> splitString(std::string s, const char c);
 int orarioToInt(std::string s);
+std::string getDeviceName(std::string s);
+void printAndLog(std::ofstream &ofs, const std::string s);
 void printCommands();
 
 int main(int argc, char *argv[]) {
-  /*if (argc != 2) {
+  if (argc != 2) {
     std::cout << "Utilizzo: main <massima potenza>\n";
     return 0;
   }
@@ -22,14 +25,34 @@ int main(int argc, char *argv[]) {
     std::cout
         << "<massima potenza> deve essere un valore 'double' maggiore di 0\n";
     return 0;
-  }*/
+  }
 
-  Casa home = Casa(3.5);
+  std::ofstream fs = std::ofstream();
+  fs.open("log.txt", std::fstream::app);
+  if (fs.fail()) {
+    std::cout << "errore nell'apertura del file in modalità 'append'\n";
+    return -1;
+  }
+
+  constexpr bool DEBUG = true;
+  std::deque<std::string> comandi{
+      "set Impianto fotovoltaico on",
+      "set Impianto fotovoltaico 1:00 1:20",
+      "set Pompa di calore + termostato on",
+      "set Lavastoviglie on",
+      "set Lavastoviglie off",
+      "set time 1:30",
+      "set Frigorifero on",
+      "set Frigorifero 2:00 3:00",
+      "set Lavatrice off",
+      "set time 3:05",
+      "set Pompa di calore + termostato off",
+      "reset all",
+      "exit",
+  };
+
+  Casa home = Casa(std::stod(argv[1]));
   std::string answer = "";
-
-  // DEBUG
-  std::vector<std::string> comandi{"set time 2:00", "set Scaldabagno on",
-                                   "set Lavatrice on"};
 
   while (true) {
     // Formattazione iniziale, per far capire che il programma è
@@ -37,42 +60,95 @@ int main(int argc, char *argv[]) {
     std::cout << ">> ";
 
     // Prendo in input la riga inserita dall'utente
-    // std::getline(std::cin, answer);
-    answer = comandi.back();
-    comandi.pop_back();
+    if (DEBUG) {
+      answer = comandi.front();
+      comandi.pop_front();
+      std::cout << answer << '\n';
+    } else
+      std::getline(std::cin, answer);
 
     removeUnnecessarySpaces(answer);
     std::vector<std::string> commands = splitString(answer, ' ');
 
     try {
-      if (answer == "exit")
+      if (answer == "exit") {
+        std::cout << '\n';
         break;
-      else if (answer == "?" || answer == "help") {
+      } else if (answer == "?" || answer == "help") {
         // stampo la lista dei comandi
         printCommands();
       } else if (commands.at(0) == "set") {
+
         if (commands.at(1) == "time")
-          home.setOrario(orarioToInt(commands.at(2)));
-        else if (commands.at(2) == "on")
-          home.accendiDispositivo(commands.at(1));
-        else if (commands.at(2) == "off")
-          home.spegniDispositivo(commands.at(1));
-        else if (commands.size() == 4) // set ${DEVICENAME} ${START} [${STOP}]
-          home.impostaTimer(commands.at(1), orarioToInt(commands.at(2)),
-                            orarioToInt(commands.at(3)));
-        else if (commands.size() == 3) // set ${DEVICENAME} ${START}
-          home.impostaTimer(commands.at(1), orarioToInt(commands.at(2)));
+          // set time ${TIME}
+          printAndLog(fs, home.setOrario(orarioToInt(commands.at(2))));
+        else if (answer.find("on") != std::string::npos) {
+          // set ${DEVICENAME} on
+          if (commands.size() == 3)
+            printAndLog(fs, home.accendiDispositivo(commands.at(1)));
+          else {
+            // Esempio: "set Impianto fotovoltaico on"
+            // inputSize = answer.size() (= 28)
+            // onStrPos = answer.find("on"); (= 26)
+            // onStrPos = 26
+            // Comincio da 4, ovvero 'I'
+            //
+            // Dalla lunghezza totale della stringa (inputSize) tolgo la
+            // posizione di "on" quindi faccio (28 - 26) = 2, questo lo tolgo da
+            // inputSize -> 26, poi tolgo dal conteggio la lunghezza di "set"
+            // e i due spazi ==> 26 - 3 - 1 - 1 = 21 che è lunghezza del nome
+            // del dispositivo "Impianto fotovoltaico"
+            // Formula: inputSize - (inputSize - onStrPos) - 5
+            // Semplifico la formula e ottengo: (onStrPos - 5)
+            std::string deviceName = answer.substr(4, answer.find("on") - 5);
+
+            printAndLog(fs, home.accendiDispositivo(deviceName));
+          }
+        } else if (answer.find("off") != std::string::npos) {
+          // set ${DEVICENAME} off
+
+          // Ho spiegato i calcoli su "set ${DEVICENAME} on"
+          std::string deviceName = answer.substr(4, answer.find("off") - 5);
+          printAndLog(fs, home.spegniDispositivo(deviceName));
+        } else {
+          // set ${DEVICENAME} ${START} [${STOP}]
+
+          std::string deviceName = getDeviceName(answer.substr(4));
+          std::string str = answer.substr(4 + deviceName.size() + 1);
+          commands = splitString(str, ' ');
+
+          if (commands.size() == 1)
+            printAndLog(
+                fs, home.impostaTimer(deviceName, orarioToInt(commands.at(0))));
+          else
+            printAndLog(fs, home.impostaTimer(deviceName,
+                                              orarioToInt(commands.at(0)),
+                                              orarioToInt(commands.at(1))));
+        }
 
       } else if (commands.at(0) == "show") {
-        if (commands.size() == 2)
-          std::cout << home.consumoDispositivo(commands.at(1)) << '\n';
-        else if (commands.size() == 1)
-          home.allConsumi();
-        else
-          std::cout << "Comando non valido\n";
+        if (commands.size() == 1)
+          printAndLog(fs, home.allConsumi()); // show
+        else {
+          // show ${DEVICENAME}
+
+          // Ho spiegato i calcoli su "set ${DEVICENAME} on"
+          std::string deviceName = answer.substr(5);
+          printAndLog(fs, home.consumoDispositivo(deviceName));
+        }
       } else if (commands.at(0) == "rm") {
-        std::cout << home.rmTimer(commands.at(1)) << '\n';
-      } else
+        // rm ${DEVICENAME}
+
+        // Ho spiegato i calcoli su "set ${DEVICENAME} on"
+        std::string deviceName = answer.substr(3);
+        printAndLog(fs, home.rmTimer(deviceName));
+      } else if (answer == "reset time" && DEBUG)
+        printAndLog(fs, home.resetOrario());
+      else if (answer == "reset timers" && DEBUG)
+        printAndLog(fs, home.resetTimers());
+      else if (answer == "reset all" && DEBUG)
+        printAndLog(fs, home.resetAll());
+      else
         std::cout << "Comando non valido\n";
 
     } catch (std::out_of_range const &e) {
@@ -82,6 +158,7 @@ int main(int argc, char *argv[]) {
     }
   }
 
+  fs.close();
   return 0;
 }
 
@@ -145,6 +222,25 @@ int orarioToInt(std::string s) {
   }
 
   return h * 60 + m;
+}
+
+std::string getDeviceName(std::string s) {
+  std::string deviceName = "";
+  for (std::string::iterator is = s.begin(); is != s.end(); ++is) {
+    if (isdigit(*(is))) {
+      // rimuovo lo spazio che sicuramente c'è prima dell'ora
+      deviceName.pop_back();
+      break;
+    }
+
+    deviceName.push_back(*(is));
+  }
+  return deviceName;
+}
+
+void printAndLog(std::ofstream &ofs, const std::string s) {
+  std::cout << s;
+  ofs << s;
 }
 
 void printCommands() {

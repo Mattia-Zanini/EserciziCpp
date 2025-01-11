@@ -23,16 +23,16 @@ class Casa{
         Casa(double p); //costruttore
         std::string const getOrario(); //restituisce il log da stampare all'inizio dell'esecuzione di ogni comando
         std::string resetOrario(); //esegue comando "reset time"
-        void accendiDispositivo(std::string n); //esegue comando "set ${DEVICENAME} on"
-        void spegniDispositivo(std::string n); //esegue comando "set ${DEVICENAME} off"
+        std::string accendiDispositivo(std::string n); //esegue comando "set ${DEVICENAME} on"
+        std::string spegniDispositivo(std::string n); //esegue comando "set ${DEVICENAME} off"
         std::string impostaTimer(std::string n, int s); //esegue comando "set ${DEVICENAME} ${START}"
         std::string impostaTimer(std::string n, int s, int e); //(solo per dispositivi manuali) esegue comando "set ${DEVICENAME} ${START} ${STOP}"
         std::string rmTimer(std::string n); //esegue comando "rm ${DEVICENAME}"
         std::string consumoDispositivo(std::string n); //esegue comando "show ${DEVICENAME}"
-        void allConsumi(); //esegue comando "show"
-        void setOrario(int x); //esegue comando "set time ${TIME}"
+        std::string allConsumi(); //esegue comando "show"
+        std::string setOrario(int x); //esegue comando "set time ${TIME}"
         std::string resetTimers(); //esegue comando "reset timers"
-        void resetAll(); //esegue comando "reset all"
+        std::string resetAll(); //esegue comando "reset all"
 };
 
 std::string intToOrario(int x); //trasforma il numero di minuti passati dalle 00:00 in formato hh:mm
