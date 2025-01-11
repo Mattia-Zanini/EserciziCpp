@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 
-std::string lowerString(const std::string s);
 void removeUnnecessarySpaces(std::string &s);
 std::vector<std::string> splitString(std::string s, const char c);
 int orarioToInt(std::string s);
@@ -28,24 +27,30 @@ int main(int argc, char *argv[]) {
   Casa home = Casa(3.5);
   std::string answer = "";
 
+  // DEBUG
+  std::vector<std::string> comandi{"set time 2:00", "set Scaldabagno on",
+                                   "set Lavatrice on"};
+
   while (true) {
     // Formattazione iniziale, per far capire che il programma è
     // lanciato ed è in attesa di comandi
     std::cout << ">> ";
 
     // Prendo in input la riga inserita dall'utente
-    std::getline(std::cin, answer);
-    removeUnnecessarySpaces(answer);
-    std::vector<std::string> commands(0);
+    // std::getline(std::cin, answer);
+    answer = comandi.back();
+    comandi.pop_back();
 
-    if (answer == "exit")
-      break;
-    else if (answer == "?" || answer == "help") {
-      // stampo la lista dei comandi
-      printCommands();
-    } else if (answer.find("set") != std::string::npos) {
-      commands = splitString(answer, ' ');
-      try {
+    removeUnnecessarySpaces(answer);
+    std::vector<std::string> commands = splitString(answer, ' ');
+
+    try {
+      if (answer == "exit")
+        break;
+      else if (answer == "?" || answer == "help") {
+        // stampo la lista dei comandi
+        printCommands();
+      } else if (commands.at(0) == "set") {
         if (commands.at(1) == "time")
           home.setOrario(orarioToInt(commands.at(2)));
         else if (commands.at(2) == "on")
@@ -58,27 +63,26 @@ int main(int argc, char *argv[]) {
         else if (commands.size() == 3) // set ${DEVICENAME} ${START}
           home.impostaTimer(commands.at(1), orarioToInt(commands.at(2)));
 
-      } catch (std::out_of_range const &e) {
-        std::cout << "Mancano dei parametri" << '\n';
-      } catch (std::invalid_argument const &e) {
-        std::cout << e.what() << '\n';
-      }
+      } else if (commands.at(0) == "show") {
+        if (commands.size() == 2)
+          std::cout << home.consumoDispositivo(commands.at(1)) << '\n';
+        else if (commands.size() == 1)
+          home.allConsumi();
+        else
+          std::cout << "Comando non valido\n";
+      } else if (commands.at(0) == "rm") {
+        std::cout << home.rmTimer(commands.at(1)) << '\n';
+      } else
+        std::cout << "Comando non valido\n";
 
-    } else if (answer.find("show") != std::string::npos) {
-    } else
-      std::cout << "Comando non valido\n";
+    } catch (std::out_of_range const &e) {
+      std::cout << "Mancano dei parametri" << '\n';
+    } catch (std::invalid_argument const &e) {
+      std::cout << e.what() << '\n';
+    }
   }
 
   return 0;
-}
-
-// ritorno una stringa con tutti i caratteri in minuscolo,
-// mantenendo intatta l'originale
-std::string lowerString(const std::string s) {
-  std::string lowerS = s;
-  for (int i = 0; i < lowerS.size(); i++)
-    lowerS[i] = tolower(lowerS[i]);
-  return lowerS;
 }
 
 // Passata una stringa per riferimento, rimuove gli spazi inutili dal comando

@@ -6,7 +6,7 @@
 //inizializzazione del vettore vetDispositivi: un vettore di shared_pointer a Dispositivo, nella pratica ogni elemento del vettore punta a un oggetto Manuale o CP
 Casa::Casa(double p)
     : potenzaMax{p}, potenzaInUso{0}, orario{0} {
-        std::vector<std::string> nomi{"Impianto fotovoltaico", "Lavatrice", "Lavastoviglie", "Pompa di calore + termostato", "Tapparelle elettriche", "Scaldabagno", "Frigorifero", "Forno a microonde", "Asciugatrice", "Televisore"};
+        std::vector<std::string> nomi{"Impianto fotovoltaico", "Lavatrice", "Lavastoviglie", "Pompa di calore + termostato", "Tapparelle elettriche", "scaldabagno", "Frigorifero", "Forno a microonde", "Asciugatrice", "Televisore"};
         std::vector<double> potenze{1.5, -2, -1.5, -2, -0.3, -1, -0.4, -0.8, -0.5, -0.2};
         std::vector<int> durate{-1, 110, 195, -1, 1, -1, -1, 2, 60, 60};
         for(int i=0; i<nomi.size(); i++){
@@ -27,6 +27,11 @@ std::string const Casa::getOrario(){
 
 void Casa::accendiDispositivo(std::string n){
     for(int i=0; i<vetDispositivi.size(); i++){ //questo ciclo scorre tutti i dispositivi
+        if((*vetDispositivi[i]).getNome() == n && (*vetDispositivi[i]).getStato()){
+            std::cout << "[" <<intToOrario(orario) << "] Il dispositivo " << (*vetDispositivi[i]).getNome() << " è già acceso\n";
+            return;
+        }
+
         if((*vetDispositivi[i]).getNome() == n && !(*vetDispositivi[i]).getStato()){ //se il dispositivo è spento...
             (*vetDispositivi[i]).accensione(); //lo accendo (se il dispositivo è CP, verrà chiamata la funzione accensione sovrascritta in CP)
             dispAccesi.push_back(vetDispositivi[i]); //aggiungo il dispositivo alla lista di dispositivi accesi
@@ -50,6 +55,10 @@ void Casa::accendiDispositivo(std::string n){
 
 void Casa::spegniDispositivo(std::string n){
     for(int i=0; i<vetDispositivi.size(); i++){
+        if((*vetDispositivi[i]).getNome() == n && !(*vetDispositivi[i]).getStato()){
+            std::cout << "[" <<intToOrario(orario) << "] Il dispositivo " << (*vetDispositivi[i]).getNome() << " è già spento\n";
+            return;
+        }
         if((*vetDispositivi[i]).getNome() == n && (*vetDispositivi[i]).getStato()){ //se il dispositivo è acceso...
             (*vetDispositivi[i]).spegnimento(); //lo spengo
             std::string s = "[" + intToOrario(orario) + "] Il dispositivo " + (*vetDispositivi[i]).getNome() + " si è spento"; //log
