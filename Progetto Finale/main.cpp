@@ -36,20 +36,36 @@ int main(int argc, char *argv[]) {
     return -1;
   }
 
-  constexpr bool DEBUG = false;
+  constexpr bool DEBUG = true;
+  std::deque<std::string> comandi2{"set Forno a microonde on", "exit"};
   std::deque<std::string> comandi{
       "set Impianto fotovoltaico on",
       "set Impianto fotovoltaico 1:00 1:20",
       "set Pompa di calore + termostato on",
+      "set Pompa di calore + termostato 1:00 1:30",
       "set Lavastoviglie on",
       "set Lavastoviglie off",
       "set time 1:30",
       "set Frigorifero on",
       "set Frigorifero 2:00 3:00",
       "set Lavatrice off",
+      "show",
+      "show Impianto fotovoltaico",
       "set time 3:05",
-      "set Pompa di calore + termostato off",
-      "reset all",
+      "set Pompa di calore + termostato on",
+      "set Impianto fotovoltaico 3:10 4:00",
+      "set Scaldabagno off",
+      "set Impianto fotovoltaico on",
+      "set Impianto fotovoltaico 3:10 15:00",
+      "set Asciugatrice on",
+      "set Televisore on",
+      "set Forno a microonde on",
+      "set Tapparelle elettriche on",
+      "rm Impianto fotovoltaico",
+      "set time 4:20",
+      "set Frigorifero on",
+      "rm Impianto fotovoltaico",
+      "show",
       "exit",
   };
 
@@ -84,33 +100,40 @@ int main(int argc, char *argv[]) {
         if (commands.at(1) == "time")
           // set time ${TIME}
           printAndLog(fs, home.setOrario(orarioToInt(commands.at(2))));
-        else if (answer.find("on") != std::string::npos) {
+        else if (commands.back() == "on") {
           // set ${DEVICENAME} on
           if (commands.size() == 3)
             printAndLog(fs, home.accendiDispositivo(commands.at(1)));
           else {
             // Esempio: "set Impianto fotovoltaico on"
             // inputSize = answer.size() (= 28)
-            // onStrPos = answer.find("on"); (= 26)
-            // onStrPos = 26
+            // onStrPos = answer.find_last_of("on"); (= 27)
+            // onStrPos = 27
             // Comincio da 4, ovvero 'I'
             //
             // Dalla lunghezza totale della stringa (inputSize) tolgo la
-            // posizione di "on" quindi faccio (28 - 26) = 2, questo lo tolgo da
-            // inputSize -> 26, poi tolgo dal conteggio la lunghezza di "set"
-            // e i due spazi ==> 26 - 3 - 1 - 1 = 21 che è lunghezza del nome
-            // del dispositivo "Impianto fotovoltaico"
-            // Formula: inputSize - (inputSize - onStrPos) - 5
-            // Semplifico la formula e ottengo: (onStrPos - 5)
-            std::string deviceName = answer.substr(4, answer.find("on") - 5);
+            // posizione di "on" quindi faccio (28 - 27) = 1, questo lo tolgo da
+            // inputSize -> 27, poi tolgo dal conteggio la lunghezza di "set"
+            // e i due spazi e lo spazio prima di on, perchè 'find_last_of'
+            // ritorna la posizione dell'ultimo carattere della sottostringa da
+            // cercare partendo dalla fine della stringa iniziale, infatti
+            // ritorna 27 che è la posizione di 'n' di "on"
+            // ==> 27 - 3 - 1 - 1 - 1 = 21 che è lunghezza del nome del
+            // dispositivo "Impianto fotovoltaico"
+            // Formula: inputSize - (inputSize - onStrPos) - 6
+            // Semplifico la formula e ottengo: (onStrPos - 6)
+            int onStrPos = answer.find_last_of("on");
+            std::string deviceName =
+                answer.substr(4, answer.find_last_of("on") - 6);
 
             printAndLog(fs, home.accendiDispositivo(deviceName));
           }
-        } else if (answer.find("off") != std::string::npos) {
+        } else if (commands.back() == "off") {
           // set ${DEVICENAME} off
 
           // Ho spiegato i calcoli su "set ${DEVICENAME} on"
-          std::string deviceName = answer.substr(4, answer.find("off") - 5);
+          std::string deviceName =
+              answer.substr(4, answer.find_last_of("off") - 7);
           printAndLog(fs, home.spegniDispositivo(deviceName));
         } else {
           // set ${DEVICENAME} ${START} [${STOP}]

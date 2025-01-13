@@ -9,6 +9,7 @@
         "src/CicloPrefissato.cpp",
         "src/Dispositivo.cpp",
         "src/Manuale.cpp",
+        
         "-std=c++17",
         "-fcolor-diagnostics",
         "-fansi-escape-codes",

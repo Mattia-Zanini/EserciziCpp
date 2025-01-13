@@ -132,7 +132,7 @@ std::string Casa::rmTimer(std::string n){
                 (*m).setTimerSpegnimento(-1);
             }
             std::string out = "[" + intToOrario(orario) + "] Rimosso il timer dal dispositivo " + (*vetDispositivi[i]).getNome() + '\n'; //log
-            return out + '\n';
+            return out;
         }
     }
     throw std::invalid_argument("Nessun dispositivo con il nome fornito"); //eccezione di elemento non trovato
@@ -150,7 +150,7 @@ std::string Casa::consumoDispositivo(std::string n){
                 out += "consumato ";
             }
             out += std::to_string((*vetDispositivi[i]).getEnergia()) + " kWh" + '\n'; //log
-            return out + '\n';
+            return out;
         }
     }
     throw std::invalid_argument("Nessun dispositivo con il nome fornito"); //eccezione di elemento non trovato
@@ -171,7 +171,7 @@ std::string Casa::allConsumi(){
     }
     std::string produzioneStr = std::to_string(produzione);
     std::string consumoStr = std::to_string(consumo);
-    s += "[" + intToOrario(orario) + "]" + "Attualmente il sistema ha prodotto " + produzioneStr + " kWh e consumato " + consumoStr + " kWh. Nello specifico:\n";
+    s += "[" + intToOrario(orario) + "] Attualmente il sistema ha prodotto " + produzioneStr + " kWh e consumato " + consumoStr + " kWh. Nello specifico:\n";
     //A questo punto si potrebbe pensare di chiamare la funzione consumoDispositivo su ogni dispositivo, ma ciò genererebbe un log diverso da quello previsto nella consegna.
     //Infatti quando si usa il comando "show ${DEVICENAME}" vi è la parola attualmente nel log, parola che non deve essere presente nel log del comando "show"
     for(int i=0; i<vetDispositivi.size(); i++){
@@ -185,7 +185,7 @@ std::string Casa::allConsumi(){
         }
     }
 
-    return s + '\n';
+    return s;
 }
 
 std::string Casa::setOrario(int x){
