@@ -583,3 +583,15 @@
 [03:05] Il dispositivo Pompa di calore + termostato si è spento
 [00:00] L'orario attuale è 00:00
 [00:00] I timer di tutti i dispositivi sono stati rimossi
+[00:00]Attualmente il sistema ha prodotto 0.000000 kWh e consumato 0.000000 kWh. Nello specifico:
+ - Il dispositivo Impianto fotovoltaico ha prodotto 0.000000 kWh
+ - Il dispositivo Lavatrice ha consumato 0.000000 kWh
+ - Il dispositivo Lavastoviglie ha consumato 0.000000 kWh
+ - Il dispositivo Pompa di calore + termostato ha consumato 0.000000 kWh
+ - Il dispositivo Tapparelle elettriche ha consumato 0.000000 kWh
+ - Il dispositivo Scaldabagno ha consumato 0.000000 kWh
+ - Il dispositivo Frigorifero ha consumato 0.000000 kWh
+ - Il dispositivo Forno a microonde ha consumato 0.000000 kWh
+ - Il dispositivo Asciugatrice ha consumato 0.000000 kWh
+ - Il dispositivo Televisore ha consumato 0.000000 kWh
+

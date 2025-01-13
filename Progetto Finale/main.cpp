@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
     return -1;
   }
 
-  constexpr bool DEBUG = true;
+  constexpr bool DEBUG = false;
   std::deque<std::string> comandi{
       "set Impianto fotovoltaico on",
       "set Impianto fotovoltaico 1:00 1:20",
