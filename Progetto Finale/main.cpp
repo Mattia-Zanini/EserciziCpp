@@ -1,7 +1,9 @@
 #include "include/Casa.h"
+#include <deque>
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <vector>
 
 void removeUnnecessarySpaces(std::string &s);
 std::vector<std::string> splitString(std::string s, const char c);
