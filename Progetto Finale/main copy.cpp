@@ -42,6 +42,60 @@ int main(int argc, char *argv[]) {
     return -1;
   }
 
+  constexpr bool DEBUG = true;
+
+  std::deque<std::string> comandi{
+      "set Frigorifero 00:20 1:30",
+      "rm Frigorifero",
+      "set Lavastoviglie on",
+      "set Lavastoviglie off",
+      "set Impianto fotovoltaico on",
+      "set Scaldabagno 14:42 14:52",
+      "set Asciugatrice on",
+      "set Asciugatrice 2:00",
+      "set time 3:35",
+      "set Pompa di calore + termostato on",
+      "set Pompa di calore + termostato 3:40 14:00",
+      "set Forno a microonde on",
+      "set Tapparelle elettriche on",
+      "set Impianto fotovoltaico off",
+      "set Scaldabagno 8:00 12:00",
+      "set time 9:12",
+      "set time 15:00",
+      "show",
+      "exit",
+  };
+  std::deque<std::string> comandi2{
+      "set Impianto fotovoltaico on",
+      "set Impianto fotovoltaico 1:00 1:20",
+      "set Pompa di calore + termostato on",
+      "set Pompa di calore + termostato 1:00 1:30",
+      "set Lavastoviglie on",
+      "set Lavastoviglie off",
+      "set time 1:30",
+      "set Frigorifero on",
+      "set Frigorifero 2:00 3:00",
+      "set Lavatrice off",
+      "show",
+      "show Impianto fotovoltaico",
+      "set time 3:05",
+      "set Pompa di calore + termostato on",
+      "set Impianto fotovoltaico 3:10 4:00",
+      "set Scaldabagno off",
+      "set Impianto fotovoltaico on",
+      "set Impianto fotovoltaico 3:10 15:00",
+      "set Asciugatrice on",
+      "set Televisore on",
+      "set Forno a microonde on",
+      "set Tapparelle elettriche on",
+      "rm Impianto fotovoltaico",
+      "set time 4:20",
+      "set Frigorifero on",
+      "rm Impianto fotovoltaico",
+      "show",
+      "exit",
+  };
+
   Casa home = Casa(std::stod(argv[1]));
   std::string answer = "";
 
@@ -51,7 +105,12 @@ int main(int argc, char *argv[]) {
     printAndLog(fs, ">> ");
 
     // Prendo in input la riga inserita dall'utente
-    std::getline(std::cin, answer);
+    if (false) { // DA TOGLIERE STO IF !!!!!!!
+      answer = comandi.front();
+      comandi.pop_front();
+    } else
+      // prendo una riga di input dall'utente
+      std::getline(std::cin, answer);
 
     // tolgo gli spazi non necessari dal comando
     removeUnnecessarySpaces(answer);
@@ -59,11 +118,9 @@ int main(int argc, char *argv[]) {
     // non necessari) in base agli spazi
     std::vector<std::string> commands = splitString(answer, ' ');
     // scrivo nel log il comando scritto dall'utente, dopo averlo pulito
-    fs << (answer + '\n');
-    // stampo l'orario corrente, quando viene invocato un
-    // comando (tranne per exit)
-    if (answer != "exit")
-      printAndLog(fs, home.getOrario());
+    printAndLog(fs, answer + '\n');
+    // stampo l'orario corrente, quando viene invocato un comando
+    printAndLog(fs, home.getOrario());
 
     try {
       if (answer == "exit") {
@@ -145,11 +202,11 @@ int main(int argc, char *argv[]) {
         // Ho spiegato i calcoli su "set ${DEVICENAME} on"
         std::string deviceName = answer.substr(3);
         printAndLog(fs, home.rmTimer(deviceName));
-      } else if (answer == "reset time")
+      } else if (answer == "reset time" && DEBUG)
         printAndLog(fs, home.resetOrario());
-      else if (answer == "reset timers")
+      else if (answer == "reset timers" && DEBUG)
         printAndLog(fs, home.resetTimers());
-      else if (answer == "reset all")
+      else if (answer == "reset all" && DEBUG)
         printAndLog(fs, home.resetAll());
       else
         printAndLog(fs, "Comando non valido\n");
@@ -262,11 +319,12 @@ std::string printCommands() {
        "che M)\n";
   s += "- set ${DEVICENAME} off\t\t\t Spegne il dispositivo\n";
   s += "- set time ${TIME}\t\t\t Va a una specifica ora del giorno\n";
+  s += "- rm ${DEVICENAME}\t\t\t Rimuove il timer associato al "
+       "dispositivo\n";
+
   s += "- set ${DEVICENAME} ${START} [${STOP}]\t Imposta l'orario di "
        "accensione e spegnimento per il dispositivo. L'orario di "
        "spegnimento è disponibile per solo i dispositivi M.\n\n";
-  s += "- rm ${DEVICENAME}\t\t\t Rimuove il timer associato al "
-       "dispositivo\n";
   s += "- show\t\t\t\t\t Mostra la lista di tutti i dispositivi "
        "(attivi e inattivi) con la produzione/consumo energetico"
        "di ciascuno dalle 00:00 al momento di invio del comando."

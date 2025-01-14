@@ -1,3 +1,4 @@
+# Autore: Zanini Mattia
 cmake_minimum_required(VERSION 2.84 FATAL_ERROR)
 
 project(CasaDispositivi)

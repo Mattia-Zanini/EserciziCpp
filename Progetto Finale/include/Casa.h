@@ -30,7 +30,6 @@ class Casa{
         std::string resetAll(); //esegue comando "reset all"
 
     private:
-        static const int FINE = 1439; //rappresenta l'ora 23:59 in minuti passati dalle 00:00, ultimo minuto utile della giornata
         double potenzaMax; //(in kW) limite della potenzza del sistema (inizialmente 3,5 kW)
         double potenzaInUso; //(in kW) somma delle potenze dei dispositivi accesi
         std::vector<std::shared_ptr<Dispositivo>> vetDispositivi; //vettore di dispositivi

@@ -29,20 +29,21 @@ std::string Casa::getOrario() const{
 std::string Casa::accendiDispositivo(std::string n){
     std::string s = "";
     for(int i=0; i<vetDispositivi.size(); i++){ //questo ciclo scorre tutti i dispositivi
-        if((*vetDispositivi[i]).getNome() == n && !(*vetDispositivi[i]).getStato()){ //se il dispositivo è spento...
-            (*vetDispositivi[i]).accensione(); //lo accendo (se il dispositivo è CP, verrà chiamata la funzione accensione sovrascritta in CP)
-            dispAccesi.push_back(vetDispositivi[i]); //aggiungo il dispositivo alla lista di dispositivi accesi
-            s = "[" + intToOrario(orario) + "] Il dispositivo " + (*vetDispositivi[i]).getNome() + " si è acceso\n"; //log
-            if((*vetDispositivi[i]).getPotenza() > 0){ //se il dispositivo produce energia (ad es. l'impianto fotovoltaico)...
-                potenzaMax += (*vetDispositivi[i]).getPotenza(); //incremento il valore della potenza massima disponibile per il sistema
+        if((*vetDispositivi[i]).getNome() == n){ // se viene trovato il dispositivo...
+            if(!(*vetDispositivi[i]).getStato()){//se il dispositivo è spento...
+                (*vetDispositivi[i]).accensione(); //lo accendo (se il dispositivo è CP, verrà chiamata la funzione accensione sovrascritta in CP)
+                dispAccesi.push_back(vetDispositivi[i]); //aggiungo il dispositivo alla lista di dispositivi accesi
+                s = "[" + intToOrario(orario) + "] Il dispositivo " + (*vetDispositivi[i]).getNome() + " si è acceso\n"; //log
+                if((*vetDispositivi[i]).getPotenza() > 0){ //se il dispositivo produce energia (ad es. l'impianto fotovoltaico)...
+                    potenzaMax += (*vetDispositivi[i]).getPotenza(); //incremento il valore della potenza massima disponibile per il sistema
+                }
+                else{ //altrimenti (se il dispositivo consuma energia)...
+                    potenzaInUso += -((*vetDispositivi[i]).getPotenza()); //incremento il valore della potenza utilizzata dal sistema
+                }
+                if(potenzaInUso > potenzaMax){ //se ho superato la potenza massima accendendo un dispositivo, allora lo spengo, tornando così al di sotto del limite
+                    s += spegniDispositivo(n);
+                }
             }
-            else{ //altrimenti (se il dispositivo consuma energia)...
-                potenzaInUso += -((*vetDispositivi[i]).getPotenza()); //incremento il valore della potenza utilizzata dal sistema
-            }
-            if(potenzaInUso > potenzaMax){ //se ho superato la potenza massima accendendo un dispositivo, allora lo spengo, tornando così al di sotto del limite
-                s += spegniDispositivo(n);
-            }
-
             return s;
         }
     }
@@ -52,38 +53,39 @@ std::string Casa::accendiDispositivo(std::string n){
 std::string Casa::spegniDispositivo(std::string n){
     std::string s = "";
     for(int i=0; i<vetDispositivi.size(); i++){
-        if((*vetDispositivi[i]).getNome() == n && (*vetDispositivi[i]).getStato()){ //se il dispositivo è acceso...
-            (*vetDispositivi[i]).spegnimento(); //lo spengo
-            s = "[" + intToOrario(orario) + "] Il dispositivo " + (*vetDispositivi[i]).getNome() + " si è spento\n"; //log
-            for(int j=0; j<dispAccesi.size(); j++){ //devo rimuovere il dispositivo appena spento dalla lista dei dispositivi accesi
-                if((*vetDispositivi[i]).getNome() == n){
-                    //devo mantenere l'ordine di inserimento, quindi sposto di una posizione verso sinistra la porzione del vettore a destra dell'elemento da rimuovere
-                    int k = j;
-                    while(k < dispAccesi.size()-1){ 
-                        dispAccesi[k] = dispAccesi[k++];
+        if((*vetDispositivi[i]).getNome() == n){ // se trova il dispositivo...
+            if((*vetDispositivi[i]).getStato()){//se il dispositivo è acceso...
+                (*vetDispositivi[i]).spegnimento(); //lo spengo
+                s = "[" + intToOrario(orario) + "] Il dispositivo " + (*vetDispositivi[i]).getNome() + " si è spento\n"; //log
+                for(int j=0; j<dispAccesi.size(); j++){ //devo rimuovere il dispositivo appena spento dalla lista dei dispositivi accesi
+                    if((*dispAccesi[j]).getNome() == n){
+                        //devo mantenere l'ordine di inserimento, quindi sposto di una posizione verso sinistra la porzione del vettore a destra dell'elemento da rimuovere
+                        int k = j;
+                        while(k < dispAccesi.size()-1){ 
+                            dispAccesi[k] = dispAccesi[k+1];
+                            k++;
+                        }
+                        dispAccesi.pop_back();
                     }
-                    dispAccesi.pop_back();
                 }
-            }
-            if((*vetDispositivi[i]).getPotenza() > 0){ //se il dispositivo produce energia (ad es. l'impianto fotovoltaico)...
-                potenzaMax -= (*vetDispositivi[i]).getPotenza(); //decremento il valore della potenza massima disponibile per il sistema
-                //la potenzaMax è dimnuita e quindi potrei aver sforato con la potenzaInUso. Se così è...
-                int l = dispAccesi.size()-1; //spengo i dispositivi partendo da quello acceso per ultimo...
-                while(potenzaInUso > potenzaMax){ //fino a quando non ho una potenza utilizzata minore o uguale di quella massima consentita
-                    if((*dispAccesi[l]).getPotenza() < 0){ //ATTENZIONE!!! spengo solo i dispositivi che consumano energia, non quelli che la producono
-                        s += spegniDispositivo((*dispAccesi[l]).getNome());
+                if((*vetDispositivi[i]).getPotenza() > 0){ //se il dispositivo produce energia (ad es. l'impianto fotovoltaico)...
+                    potenzaMax -= (*vetDispositivi[i]).getPotenza(); //decremento il valore della potenza massima disponibile per il sistema
+                    //la potenzaMax è dimnuita e quindi potrei aver sforato con la potenzaInUso. Se così è...
+                    int l = dispAccesi.size()-1; //spengo i dispositivi partendo da quello acceso per ultimo...
+                    while(potenzaInUso > potenzaMax){ //fino a quando non ho una potenza utilizzata minore o uguale di quella massima consentita
+                        if((*dispAccesi[l]).getPotenza() < 0){ //ATTENZIONE!!! spengo solo i dispositivi che consumano energia, non quelli che la producono
+                            s += spegniDispositivo((*dispAccesi[l]).getNome());
+                        }
+                        l--;
                     }
-                    l--;
                 }
+                else{ //altrimenti (ovvero se il dispositivo consuma energia)...
+                    potenzaInUso -= -((*vetDispositivi[i]).getPotenza()); //decremento il valore della potenza utilizzata dal sistema
+                }
+                Manuale* m = dynamic_cast<Manuale*>(vetDispositivi[i].get()); //Nel seguente if si entra solo se il dispositivo è di tipo manuale,
+                if(m && (*m).getTimerAccensione()<=orario && (*m).getTimerSpegnimento()>orario) //se vi è un timer di accensione nel passato e uno di spegnimento nel futuro, allora quest'ultimo viene rimosso
+                    (*m).setTimerSpegnimento(-1);
             }
-            else{ //altrimenti (ovvero se il dispositivo consuma energia)...
-                potenzaInUso -= -((*vetDispositivi[i]).getPotenza()); //decremento il valore della potenza utilizzata dal sistema
-            }
-            Manuale* m = dynamic_cast<Manuale*>(vetDispositivi[i].get()); //Nel seguente if si entra solo se il dispositivo è di tipo manuale,
-            if(m && (*m).getTimerAccensione()<=orario && (*m).getTimerSpegnimento()>orario){ //se vi è un timer di accensione nel passato e uno di spegnimento nel futuro, allora quest'ultimo viene rimosso
-                (*m).setTimerSpegnimento(-1);
-            }
-
             return s;
         }
     }
@@ -125,14 +127,17 @@ std::string Casa::impostaTimer(std::string n, int s, int e){
 }
 
 std::string Casa::rmTimer(std::string n){
+    std::string out = "";
     for(int i=0; i<vetDispositivi.size(); i++){
-        if((*vetDispositivi[i]).getNome() == n && (*vetDispositivi[i]).getTimerAccensione()>orario){ //se vi è un timer di accensione nel futuro...
-            (*vetDispositivi[i]).setTimerAccensione(-1); //lo rimuovo
-            Manuale* m = dynamic_cast<Manuale*>(vetDispositivi[i].get());
-            if(m){ //se il dispositivo è manuale, devo rimuovere anche il timer di spegnimento 
-                (*m).setTimerSpegnimento(-1);
+        if((*vetDispositivi[i]).getNome() == n){ // se trovo il dispostivo...
+            if((*vetDispositivi[i]).getTimerAccensione()>orario){//se vi è un timer di accensione nel futuro...
+                (*vetDispositivi[i]).setTimerAccensione(-1); //lo rimuovo
+                Manuale* m = dynamic_cast<Manuale*>(vetDispositivi[i].get());
+                if(m)//se il dispositivo è manuale, devo rimuovere anche il timer di spegnimento 
+                    (*m).setTimerSpegnimento(-1);
+                
+                out = "[" + intToOrario(orario) + "] Rimosso il timer dal dispositivo " + (*vetDispositivi[i]).getNome() + '\n'; //log
             }
-            std::string out = "[" + intToOrario(orario) + "] Rimosso il timer dal dispositivo " + (*vetDispositivi[i]).getNome() + '\n'; //log
             return out;
         }
     }
@@ -220,17 +225,20 @@ std::string Casa::setOrario(int x){
                 }
             }
         }
-        s += getOrario();
     }
+    // Stampo l'orario alla fine dello scorere del tempo
+    s += getOrario();
     return s;
 }
 
 std::string Casa::resetOrario(){
     orario = 0;
+    std::string s = "";
     for(int i=0; i<vetDispositivi.size(); i++){ //riporto i dispositivi al loro stato iniziale(spenti)
-        (*vetDispositivi[i]).spegnimento();
+        s += spegniDispositivo((*vetDispositivi[i]).getNome());
+        (*vetDispositivi[i]).resetEnergia();
     }
-    return getOrario();
+    return s += getOrario();
 }
 
 std::string Casa::resetTimers(){
