@@ -1,6 +1,6 @@
-CMakeFiles/CicloPrefissato.dir/src/CicloPrefissato.cpp.o: \
-  /Users/mattia/Documents/GitHub/EserciziCpp/Progetto\ Finale/src/CicloPrefissato.cpp \
-  /Users/mattia/Documents/GitHub/EserciziCpp/Progetto\ Finale/src/../include/CicloPrefissato.h \
+CMakeFiles/Devices.dir/src/Manuale.cpp.o: \
+  /Users/mattia/Documents/GitHub/EserciziCpp/Progetto\ Finale/src/Manuale.cpp \
+  /Users/mattia/Documents/GitHub/EserciziCpp/Progetto\ Finale/src/../include/Manuale.h \
   /Users/mattia/Documents/GitHub/EserciziCpp/Progetto\ Finale/src/../include/Dispositivo.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/string \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/__algorithm/max.h \

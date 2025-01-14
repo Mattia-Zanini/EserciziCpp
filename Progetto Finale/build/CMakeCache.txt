@@ -222,15 +222,6 @@ CasaDispositivi_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 CasaDispositivi_SOURCE_DIR:STATIC=/Users/mattia/Documents/GitHub/EserciziCpp/Progetto Finale
 
-//Value Computed by CMake
-Casa_BINARY_DIR:STATIC=/Users/mattia/Documents/GitHub/EserciziCpp/Progetto Finale/build
-
-//Value Computed by CMake
-Casa_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-Casa_SOURCE_DIR:STATIC=/Users/mattia/Documents/GitHub/EserciziCpp/Progetto Finale
-
 
 ########################
 # INTERNAL cache entries

@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.84 FATAL_ERROR)
 
 project(CasaDispositivi)
 
+set(CMAKE_CXX_FLAGS_RELEASE "-O2")
+
 include_directories(include, src)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -12,17 +14,11 @@ add_library(Casa
 	src/Casa.cpp
 )
 
-add_library(CicloPrefissato
-	include/CicloPrefissato.h
-	src/CicloPrefissato.cpp
-)
-
-add_library(Dispositivo
+add_library(Devices
 	include/Dispositivo.h
 	src/Dispositivo.cpp
-)
-
-add_library(Manuale
+	include/CicloPrefissato.h
+	src/CicloPrefissato.cpp
 	include/Manuale.h
 	src/Manuale.cpp
 )
@@ -33,7 +29,5 @@ add_executable(main
 
 target_link_libraries(main
 	Casa
-	CicloPrefissato
-	Dispositivo
-	Manuale
+	Devices
 )

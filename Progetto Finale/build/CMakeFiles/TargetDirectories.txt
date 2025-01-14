@@ -1,7 +1,5 @@
 /Users/mattia/Documents/GitHub/EserciziCpp/Progetto Finale/build/CMakeFiles/Casa.dir
-/Users/mattia/Documents/GitHub/EserciziCpp/Progetto Finale/build/CMakeFiles/CicloPrefissato.dir
-/Users/mattia/Documents/GitHub/EserciziCpp/Progetto Finale/build/CMakeFiles/Dispositivo.dir
-/Users/mattia/Documents/GitHub/EserciziCpp/Progetto Finale/build/CMakeFiles/Manuale.dir
+/Users/mattia/Documents/GitHub/EserciziCpp/Progetto Finale/build/CMakeFiles/Devices.dir
 /Users/mattia/Documents/GitHub/EserciziCpp/Progetto Finale/build/CMakeFiles/main.dir
 /Users/mattia/Documents/GitHub/EserciziCpp/Progetto Finale/build/CMakeFiles/edit_cache.dir
 /Users/mattia/Documents/GitHub/EserciziCpp/Progetto Finale/build/CMakeFiles/rebuild_cache.dir

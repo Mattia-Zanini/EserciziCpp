@@ -1,2 +1,0 @@
-/Library/Developer/CommandLineTools/usr/bin/ar qc libCicloPrefissato.a CMakeFiles/CicloPrefissato.dir/src/CicloPrefissato.cpp.o
-/Library/Developer/CommandLineTools/usr/bin/ranlib libCicloPrefissato.a

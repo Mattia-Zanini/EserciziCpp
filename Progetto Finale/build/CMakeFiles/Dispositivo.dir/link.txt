@@ -1,2 +1,0 @@
-/Library/Developer/CommandLineTools/usr/bin/ar qc libDispositivo.a CMakeFiles/Dispositivo.dir/src/Dispositivo.cpp.o
-/Library/Developer/CommandLineTools/usr/bin/ranlib libDispositivo.a

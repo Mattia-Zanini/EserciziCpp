@@ -1,3 +1,3 @@
 file(REMOVE_RECURSE
-  "libDispositivo.a"
+  "libDevices.a"
 )

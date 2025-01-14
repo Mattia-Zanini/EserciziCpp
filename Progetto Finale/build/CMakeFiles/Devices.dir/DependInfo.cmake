@@ -8,7 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/mattia/Documents/GitHub/EserciziCpp/Progetto Finale/src/CicloPrefissato.cpp" "CMakeFiles/CicloPrefissato.dir/src/CicloPrefissato.cpp.o" "gcc" "CMakeFiles/CicloPrefissato.dir/src/CicloPrefissato.cpp.o.d"
+  "/Users/mattia/Documents/GitHub/EserciziCpp/Progetto Finale/src/CicloPrefissato.cpp" "CMakeFiles/Devices.dir/src/CicloPrefissato.cpp.o" "gcc" "CMakeFiles/Devices.dir/src/CicloPrefissato.cpp.o.d"
+  "/Users/mattia/Documents/GitHub/EserciziCpp/Progetto Finale/src/Dispositivo.cpp" "CMakeFiles/Devices.dir/src/Dispositivo.cpp.o" "gcc" "CMakeFiles/Devices.dir/src/Dispositivo.cpp.o.d"
+  "/Users/mattia/Documents/GitHub/EserciziCpp/Progetto Finale/src/Manuale.cpp" "CMakeFiles/Devices.dir/src/Manuale.cpp.o" "gcc" "CMakeFiles/Devices.dir/src/Manuale.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

@@ -1,4 +1,4 @@
-CMakeFiles/Dispositivo.dir/src/Dispositivo.cpp.o: \
+CMakeFiles/Devices.dir/src/Dispositivo.cpp.o: \
   /Users/mattia/Documents/GitHub/EserciziCpp/Progetto\ Finale/src/Dispositivo.cpp \
   /Users/mattia/Documents/GitHub/EserciziCpp/Progetto\ Finale/src/../include/Dispositivo.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk/usr/include/c++/v1/string \
