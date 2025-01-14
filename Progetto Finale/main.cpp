@@ -10,14 +10,18 @@ std::vector<std::string> splitString(std::string s, const char c);
 int orarioToInt(std::string s);
 std::string getDeviceName(std::string s);
 void printAndLog(std::ofstream &ofs, const std::string s);
-void printCommands();
+std::string printCommands();
 
 int main(int argc, char *argv[]) {
+  // controllo che ci sia almeno un altro argomento
+  // quando lancio il programma, oltre a quello di default
   if (argc != 2) {
     std::cout << "Utilizzo: main <massima potenza>\n";
     return 0;
   }
 
+  // controllo che l'argomento che mi determina la potenza massima della casa
+  // sia convertibile a un double e che sia valido
   try {
     if (std::stod(argv[1]) <= 0) {
       std::cout << "<massima potenza> deve essere maggiore di 0\n";
@@ -29,6 +33,7 @@ int main(int argc, char *argv[]) {
     return 0;
   }
 
+  // apro il file di log in modalità 'append' e lo crea se esso non esiste
   std::ofstream fs = std::ofstream();
   fs.open("log.txt", std::fstream::app);
   if (fs.fail()) {
@@ -37,8 +42,28 @@ int main(int argc, char *argv[]) {
   }
 
   constexpr bool DEBUG = true;
-  std::deque<std::string> comandi2{"set Forno a microonde on", "exit"};
   std::deque<std::string> comandi{
+      "set Frigorifero 00:20 1:30",
+      "rm Frigorifero",
+      "set Lavastoviglie on",
+      "set Lavastoviglie off",
+      "set Impianto fotovoltaico on",
+      "set Scaldabagno 14:42 14:52",
+      "set Asciugatrice on",
+      "set Asciugatrice 2:00",
+      "set time 3:35",
+      "set Pompa di calore + termostato on",
+      "set Pompa di calore + termostato 3:40 14:00",
+      "set Forno a microonde on",
+      "set Tapparelle elettriche on",
+      "set Impianto fotovoltaico off",
+      "set Scaldabagno 8:00 12:00",
+      "set time 9:12",
+      "set time 15:00",
+      "show",
+      "exit",
+  };
+  std::deque<std::string> comandi2{
       "set Impianto fotovoltaico on",
       "set Impianto fotovoltaico 1:00 1:20",
       "set Pompa di calore + termostato on",
@@ -75,26 +100,32 @@ int main(int argc, char *argv[]) {
   while (true) {
     // Formattazione iniziale, per far capire che il programma è
     // lanciato ed è in attesa di comandi
-    std::cout << ">> ";
+    printAndLog(fs, ">> ");
 
     // Prendo in input la riga inserita dall'utente
     if (DEBUG) {
       answer = comandi.front();
       comandi.pop_front();
-      std::cout << answer << '\n';
     } else
+      // prendo una riga di input dall'utente
       std::getline(std::cin, answer);
 
+    // tolgo gli spazi non necessari dal comando
     removeUnnecessarySpaces(answer);
+    // separo il comando (dopo averlo pulito da spazi
+    // non necessari) in base agli spazi
     std::vector<std::string> commands = splitString(answer, ' ');
+    // scrivo nel log il comando scritto dall'utente, dopo averlo pulito
+    printAndLog(fs, answer + '\n');
 
     try {
       if (answer == "exit") {
-        std::cout << '\n';
+        // esco dal loop e faccio terminare il programma
+        printAndLog(fs, "\n");
         break;
       } else if (answer == "?" || answer == "help") {
         // stampo la lista dei comandi
-        printCommands();
+        printAndLog(fs, printCommands());
       } else if (commands.at(0) == "set") {
 
         if (commands.at(1) == "time")
@@ -174,15 +205,17 @@ int main(int argc, char *argv[]) {
       else if (answer == "reset all" && DEBUG)
         printAndLog(fs, home.resetAll());
       else
-        std::cout << "Comando non valido\n";
+        printAndLog(fs, "Comando non valido\n");
 
     } catch (std::out_of_range const &e) {
-      std::cout << "Mancano dei parametri" << '\n';
+      printAndLog(fs, "Mancano dei parametri\n");
     } catch (std::invalid_argument const &e) {
-      std::cout << e.what() << '\n';
+      printAndLog(fs, e.what());
+      printAndLog(fs, "\n");
     }
   }
 
+  // chiudoil file prima di terminare il programma
   fs.close();
   return 0;
 }
@@ -268,26 +301,28 @@ void printAndLog(std::ofstream &ofs, const std::string s) {
   ofs << s;
 }
 
-void printCommands() {
-  std::cout << "${DEVICENAME}: Stringa di testo indicante il nome del device\n";
-  std::cout << "${START}, ${STOP}, ${TIME}: orario della giornata hh:mm "
-               "(formato 24 ore)\n\n";
+std::string printCommands() {
+  std::string s = "";
+  s += "${DEVICENAME}: Stringa di testo indicante il nome del device\n";
+  s += "${START}, ${STOP}, ${TIME}: orario della giornata hh:mm "
+       "(formato 24 ore)\n\n";
 
-  std::cout << "- set ${DEVICENAME} on\t\t\t Accende il dispositivo (sia CP "
-               "che M)\n";
-  std::cout << "- set ${DEVICENAME} off\t\t\t Spegne il dispositivo\n";
-  std::cout << "- set time ${TIME}\t\t\t Va a una specifica ora del giorno\n";
-  std::cout << "- rm ${DEVICENAME}\t\t\t Rimuove il timer associato al "
-               "dispositivo\n";
+  s += "- set ${DEVICENAME} on\t\t\t Accende il dispositivo (sia CP "
+       "che M)\n";
+  s += "- set ${DEVICENAME} off\t\t\t Spegne il dispositivo\n";
+  s += "- set time ${TIME}\t\t\t Va a una specifica ora del giorno\n";
+  s += "- rm ${DEVICENAME}\t\t\t Rimuove il timer associato al "
+       "dispositivo\n";
 
-  std::cout << "- set ${DEVICENAME} ${START} [${STOP}]\t Imposta l'orario di "
-               "accensione e spegnimento per il dispositivo. L'orario di "
-               "spegnimento è disponibile per solo i dispositivi M.\n\n";
-  std::cout << "- show\t\t\t\t\t Mostra la lista di tutti i dispositivi "
-               "(attivi e inattivi) con la produzione/consumo energetico"
-               "di ciascuno dalle 00:00 al momento di invio del comando."
-               " Inoltre mostra la produzione/consumo energetico totale "
-               "del sistema dalle 00:00 al momento di invio del comando\n\n";
-  std::cout << "- show ${DEVICENAME}\t\t\t Mostra a schermo produzione/consumo "
-               "energetico di uno specifico dispositivo\n\n";
+  s += "- set ${DEVICENAME} ${START} [${STOP}]\t Imposta l'orario di "
+       "accensione e spegnimento per il dispositivo. L'orario di "
+       "spegnimento è disponibile per solo i dispositivi M.\n\n";
+  s += "- show\t\t\t\t\t Mostra la lista di tutti i dispositivi "
+       "(attivi e inattivi) con la produzione/consumo energetico"
+       "di ciascuno dalle 00:00 al momento di invio del comando."
+       " Inoltre mostra la produzione/consumo energetico totale "
+       "del sistema dalle 00:00 al momento di invio del comando\n\n";
+  s += "- show ${DEVICENAME}\t\t\t Mostra a schermo produzione/consumo "
+       "energetico di uno specifico dispositivo\n\n";
+  return s;
 }
