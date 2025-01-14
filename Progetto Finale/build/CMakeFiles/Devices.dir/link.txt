@@ -1,2 +1,0 @@
-/Library/Developer/CommandLineTools/usr/bin/ar qc libDevices.a CMakeFiles/Devices.dir/src/Dispositivo.cpp.o CMakeFiles/Devices.dir/src/CicloPrefissato.cpp.o CMakeFiles/Devices.dir/src/Manuale.cpp.o
-/Library/Developer/CommandLineTools/usr/bin/ranlib libDevices.a

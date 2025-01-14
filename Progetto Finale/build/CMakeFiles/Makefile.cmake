@@ -56,7 +56,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/Casa.dir/DependInfo.cmake"
-  "CMakeFiles/Devices.dir/DependInfo.cmake"
+  "CMakeFiles/CasaDispositivi.dir/DependInfo.cmake"
   "CMakeFiles/main.dir/DependInfo.cmake"
   )
