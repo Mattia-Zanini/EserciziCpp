@@ -1,0 +1,107 @@
+>> set Impianto fotovoltaico on
+[00:00] L'orario attuale è 00:00
+[00:00] Il dispositivo Impianto fotovoltaico si è acceso
+>> set Impianto fotovoltaico 1:00 1:20
+[00:00] L'orario attuale è 00:00
+[00:00] Impostato un timer per il dispositivo Impianto fotovoltaico dalle 01:00 alle 01:20
+>> set Pompa di calore + termostato on
+[00:00] L'orario attuale è 00:00
+[00:00] Il dispositivo Pompa di calore + termostato si è acceso
+>> set Pompa di calore + termostato 1:00 1:30
+[00:00] L'orario attuale è 00:00
+[00:00] Impostato un timer per il dispositivo Pompa di calore + termostato dalle 01:00 alle 01:30
+>> set Lavastoviglie on
+[00:00] L'orario attuale è 00:00
+[00:00] Il dispositivo Lavastoviglie si è acceso
+>> set Lavastoviglie off
+[00:00] L'orario attuale è 00:00
+[00:00] Il dispositivo Lavastoviglie si è spento
+>> set time 1:30
+[00:00] L'orario attuale è 00:00
+[01:20] Il dispositivo Impianto fotovoltaico si è spento
+[01:30] Il dispositivo Pompa di calore + termostato si è spento
+[01:30] L'orario attuale è 01:30
+>> set Frigorifero on
+[01:30] L'orario attuale è 01:30
+[01:30] Il dispositivo Frigorifero si è acceso
+>> set Frigorifero 2:00 3:00
+[01:30] L'orario attuale è 01:30
+[01:30] Impostato un timer per il dispositivo Frigorifero dalle 02:00 alle 03:00
+>> set Lavatrice off
+[01:30] L'orario attuale è 01:30
+>> show
+[01:30] L'orario attuale è 01:30
+[01:30] Attualmente il sistema ha prodotto 2.000000 kWh e consumato 3.000000 kWh. Nello specifico:
+ - Il dispositivo Impianto fotovoltaico ha prodotto 2.000000 kWh
+ - Il dispositivo Lavatrice ha consumato 0.000000 kWh
+ - Il dispositivo Lavastoviglie ha consumato 0.000000 kWh
+ - Il dispositivo Pompa di calore + termostato ha consumato 3.000000 kWh
+ - Il dispositivo Tapparelle elettriche ha consumato 0.000000 kWh
+ - Il dispositivo Scaldabagno ha consumato 0.000000 kWh
+ - Il dispositivo Frigorifero ha consumato 0.000000 kWh
+ - Il dispositivo Forno a microonde ha consumato 0.000000 kWh
+ - Il dispositivo Asciugatrice ha consumato 0.000000 kWh
+ - Il dispositivo Televisore ha consumato 0.000000 kWh
+>> show Impianto fotovoltaico
+[01:30] L'orario attuale è 01:30
+[01:30] Il dispositivo Impianto fotovoltaico ha attualmente prodotto 2.000000 kWh
+>> set time 3:05
+[01:30] L'orario attuale è 01:30
+[03:00] Il dispositivo Frigorifero si è spento
+[03:05] L'orario attuale è 03:05
+>> set Pompa di calore + termostato on
+[03:05] L'orario attuale è 03:05
+[03:05] Il dispositivo Pompa di calore + termostato si è acceso
+>> set Impianto fotovoltaico 3:10 4:00
+[03:05] L'orario attuale è 03:05
+[03:05] Impostato un timer per il dispositivo Impianto fotovoltaico dalle 03:10 alle 04:00
+>> set Scaldabagno off
+[03:05] L'orario attuale è 03:05
+>> set Impianto fotovoltaico on
+[03:05] L'orario attuale è 03:05
+[03:05] Il dispositivo Impianto fotovoltaico si è acceso
+>> set Impianto fotovoltaico 3:10 15:00
+[03:05] L'orario attuale è 03:05
+[03:05] Impostato un timer per il dispositivo Impianto fotovoltaico dalle 03:10 alle 15:00
+>> set Asciugatrice on
+[03:05] L'orario attuale è 03:05
+[03:05] Il dispositivo Asciugatrice si è acceso
+>> set Televisore on
+[03:05] L'orario attuale è 03:05
+[03:05] Il dispositivo Televisore si è acceso
+>> set Forno a microonde on
+[03:05] L'orario attuale è 03:05
+[03:05] Il dispositivo Forno a microonde si è acceso
+>> set Tapparelle elettriche on
+[03:05] L'orario attuale è 03:05
+[03:05] Il dispositivo Tapparelle elettriche si è acceso
+>> rm Impianto fotovoltaico
+[03:05] L'orario attuale è 03:05
+[03:05] Rimosso il timer dal dispositivo Impianto fotovoltaico
+>> set time 4:20
+[03:05] L'orario attuale è 03:05
+[03:06] Il dispositivo Tapparelle elettriche si è spento
+[03:07] Il dispositivo Forno a microonde si è spento
+[04:05] Il dispositivo Asciugatrice si è spento
+[04:05] Il dispositivo Televisore si è spento
+[04:20] L'orario attuale è 04:20
+>> set Frigorifero on
+[04:20] L'orario attuale è 04:20
+[04:20] Il dispositivo Frigorifero si è acceso
+>> rm Impianto fotovoltaico
+[04:20] L'orario attuale è 04:20
+>> show
+[04:20] L'orario attuale è 04:20
+[04:20] Attualmente il sistema ha prodotto 3.875000 kWh e consumato 6.831667 kWh. Nello specifico:
+ - Il dispositivo Impianto fotovoltaico ha prodotto 3.875000 kWh
+ - Il dispositivo Lavatrice ha consumato 0.000000 kWh
+ - Il dispositivo Lavastoviglie ha consumato 0.000000 kWh
+ - Il dispositivo Pompa di calore + termostato ha consumato 5.500000 kWh
+ - Il dispositivo Tapparelle elettriche ha consumato 0.005000 kWh
+ - Il dispositivo Scaldabagno ha consumato 0.000000 kWh
+ - Il dispositivo Frigorifero ha consumato 0.600000 kWh
+ - Il dispositivo Forno a microonde ha consumato 0.026667 kWh
+ - Il dispositivo Asciugatrice ha consumato 0.500000 kWh
+ - Il dispositivo Televisore ha consumato 0.200000 kWh
+>> exit
+
