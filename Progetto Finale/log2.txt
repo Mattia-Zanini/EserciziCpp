@@ -1,3 +1,5 @@
+// Autore: Zanini Mattia
+
 >> set Impianto fotovoltaico on
 [00:00] L'orario attuale è 00:00
 [00:00] Il dispositivo Impianto fotovoltaico si è acceso

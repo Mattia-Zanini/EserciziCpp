@@ -1,4 +1,6 @@
-//Autore: Sulozeqi Sergio
+// Autore: Sulozeqi Sergio
+// Membri del gruppo: Sulozeqi Sergio, Emanuele Braccini, Zanini Mattia
+
 Come richiesto dalla consegna, il codice è adeguatamente commentato, tuttavia abbiamo deciso
 di riportare in questo file alcune delle scelte implementative più importanti:
 

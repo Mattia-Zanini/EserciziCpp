@@ -1,3 +1,5 @@
+// Autore: Zanini Mattia
+
 >> set Frigorifero 00:20 1:30
 [00:00] L'orario attuale è 00:00
 [00:00] Impostato un timer per il dispositivo Frigorifero dalle 00:20 alle 01:30
