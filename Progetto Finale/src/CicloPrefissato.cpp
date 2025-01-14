@@ -1,3 +1,4 @@
+//Autore: Braccini Emanuele
 #include "../include/CicloPrefissato.h"
 #include "../include/Dispositivo.h"
 

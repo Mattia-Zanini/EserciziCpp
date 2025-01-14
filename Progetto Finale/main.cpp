@@ -1,3 +1,4 @@
+// Autore: Zanini Mattia
 #include "include/Casa.h"
 #include <deque>
 #include <fstream>
@@ -117,6 +118,8 @@ int main(int argc, char *argv[]) {
     std::vector<std::string> commands = splitString(answer, ' ');
     // scrivo nel log il comando scritto dall'utente, dopo averlo pulito
     printAndLog(fs, answer + '\n');
+    // stampo l'orario corrente, quando viene invocato un comando
+    printAndLog(fs, home.getOrario());
 
     try {
       if (answer == "exit") {

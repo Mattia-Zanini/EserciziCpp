@@ -1,3 +1,4 @@
+//Autore: Sulozeqi Sergio
 #include "../include/Casa.h"
 #include <iostream>
 #include <exception>
@@ -19,7 +20,7 @@ Casa::Casa(double p)
         }
     }
 
-std::string const Casa::getOrario(){ 
+std::string Casa::getOrario() const{ 
     std::string ora = intToOrario(orario); //restituisce una stringa del tipo "15:30"
     std::string s = "[" + ora + "] L'orario attuale è " + ora;
     return s + '\n';
@@ -70,7 +71,7 @@ std::string Casa::spegniDispositivo(std::string n){
                 int l = dispAccesi.size()-1; //spengo i dispositivi partendo da quello acceso per ultimo...
                 while(potenzaInUso > potenzaMax){ //fino a quando non ho una potenza utilizzata minore o uguale di quella massima consentita
                     if((*dispAccesi[l]).getPotenza() < 0){ //ATTENZIONE!!! spengo solo i dispositivi che consumano energia, non quelli che la producono
-                        spegniDispositivo((*dispAccesi[l]).getNome());
+                        s += spegniDispositivo((*dispAccesi[l]).getNome());
                     }
                     l--;
                 }
@@ -138,7 +139,7 @@ std::string Casa::rmTimer(std::string n){
     throw std::invalid_argument("Nessun dispositivo con il nome fornito"); //eccezione di elemento non trovato
 }
 
-std::string Casa::consumoDispositivo(std::string n){
+std::string Casa::consumoDispositivo(std::string n) const{
     for(int i=0; i<vetDispositivi.size(); i++){
         if((*vetDispositivi[i]).getNome() == n){
             std::string out = "[" + intToOrario(orario) + "] Il dispositivo " + (*vetDispositivi[i]).getNome() + " ha attualmente ";
@@ -156,7 +157,7 @@ std::string Casa::consumoDispositivo(std::string n){
     throw std::invalid_argument("Nessun dispositivo con il nome fornito"); //eccezione di elemento non trovato
 }
 
-std::string Casa::allConsumi(){
+std::string Casa::allConsumi() const{
     double produzione = 0; //somma dell'energia prodotta da ogni dispositivo della casa
     double consumo = 0; //somma dell'energia consumata da ogni dispositivo della casa
     std::string s = "";
@@ -202,20 +203,20 @@ std::string Casa::setOrario(int x){
                 Manuale* m = dynamic_cast<Manuale*>(vetDispositivi[i].get());
                 if(m){ //se il dispositivo è manuale...
                     if((*m).getTimerSpegnimento()==orario){ //se è stato programmato lo spengimento per quest'ora...
-                        spegniDispositivo((*m).getNome()); //spengo il dispositivo
+                        s += spegniDispositivo((*m).getNome()); //spengo il dispositivo
                     }
                 }
                 else{ //se il dispositivo non è manuale, allora è a ciclo prefissato
                     CicloPrefissato* cp = dynamic_cast<CicloPrefissato*>(vetDispositivi[i].get());
                     (*cp).decreaseMinRimanenti(); //è passato un minuto per cui devo diminuire i minuti rimanenti alla fine del ciclo corrente                    
                     if((*cp).getMinRimanenti() == 0){ //se non vi sono più minuti rimasti al termine del ciclo...
-                        spegniDispositivo((*cp).getNome()); //spengo il dispositivo
+                        s += spegniDispositivo((*cp).getNome()); //spengo il dispositivo
                     }
                 }
             }
             else{ //se il dispositivo è spento...
                 if((*vetDispositivi[i]).getTimerAccensione() == orario){ //se vi è un'accensione programmata per quest'ora...
-                    accendiDispositivo((*vetDispositivi[i]).getNome()); //accendo il dispositivo
+                    s += accendiDispositivo((*vetDispositivi[i]).getNome()); //accendo il dispositivo
                 }
             }
         }
@@ -229,7 +230,7 @@ std::string Casa::resetOrario(){
     for(int i=0; i<vetDispositivi.size(); i++){ //riporto i dispositivi al loro stato iniziale(spenti)
         (*vetDispositivi[i]).spegnimento();
     }
-    return getOrario(); //log aggiunto da noi
+    return getOrario();
 }
 
 std::string Casa::resetTimers(){
@@ -240,14 +241,14 @@ std::string Casa::resetTimers(){
             (*m).setTimerSpegnimento(-1);
         }
     }
-    return "[" + intToOrario(orario) + "] I timer di tutti i dispositivi sono stati rimossi"; //log aggiunto da noi
+    return "[" + intToOrario(orario) + "] I timer di tutti i dispositivi sono stati rimossi\n"; //log aggiunto da noi
 }
 
 std::string Casa::resetAll(){
     std::string s = "";
-    //vengono stampati i log delle 2 funzioni precedenti, in quanto il compito di questa funzione è la combinazione di quelli delle funzioni resetOrario e resetTimers
+    //vengono restituiti i log delle funzioni resetOrario e resetTimers, in quanto il compito di questa funzione è la combinazione di quelli delle 2 funzioni
     s += resetOrario();
-    s += resetTimers() + '\n';
+    s += resetTimers();
     return s;
 }
 

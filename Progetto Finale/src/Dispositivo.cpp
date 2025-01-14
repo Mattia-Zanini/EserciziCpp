@@ -1,3 +1,4 @@
+//Autore: Braccini Emanuele
 #include "../include/Dispositivo.h"
 
 // Costruttore della classe base Dispositivo
