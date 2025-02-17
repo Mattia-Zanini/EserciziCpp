@@ -54,7 +54,8 @@
         "algorithm": "cpp",
         "fstream": "cpp",
         "iomanip": "cpp",
-        "__tree": "cpp"
+        "__tree": "cpp",
+        "map": "cpp"
     },
     "cmake.ignoreCMakeListsMissing": true
 }

@@ -5,11 +5,6 @@
       "label": "C/C++: clang++ build active file",
       "command": "/usr/bin/clang++",
       "args": [
-        "src/Casa.cpp",
-        "src/CicloPrefissato.cpp",
-        "src/Dispositivo.cpp",
-        "src/Manuale.cpp",
-        
         "-std=c++17",
         "-fcolor-diagnostics",
         "-fansi-escape-codes",
